@@ -1,4 +1,4 @@
-FROM ci.gpilvi.com:5000/devgeniem/docker-openresty-pagespeed-ubuntu
+FROM devgeniem/ubuntu-docker-openresty-pagespeed
 MAINTAINER Ville Pietarinen - Geniem Oy <ville.pietarinen-nospam@geniem.com>
 
 ##
