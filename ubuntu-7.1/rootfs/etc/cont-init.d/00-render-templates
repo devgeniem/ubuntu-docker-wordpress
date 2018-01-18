@@ -49,6 +49,9 @@ VARS+='$AWS_S3_BUCKET_NAME:AWS_S3_REPLICA_BUCKET_NAME'
 # Add Redis variables
 VARS+='$REDIS_HOST:$REDIS_PORT:$REDIS_DATABASE:$REDIS_PASSWORD:$NGINX_REDIS_CACHE_TTL_MAX:$NGINX_REDIS_CACHE_TTL_DEFAULT:$NGINX_REDIS_CACHE_PREFIX'
 
+# Add image proxy variables
+VARS+='$GOOGLE_CLOUD_STORAGE_BUCKET_NAME'
+
 render_env_tmpl "$VARS" /etc/nginx/cache/redis_backend.conf
 
 render_env_tmpl "$VARS" /etc/nginx/cache/srcache.conf
