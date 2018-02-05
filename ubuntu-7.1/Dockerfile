@@ -22,6 +22,7 @@ RUN \
         ca-certificates \
         git \
         mysql-client \
+        msmtp \
         postfix \
         netcat \
         less \
