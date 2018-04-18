@@ -1,4 +1,4 @@
-FROM devgeniem/ubuntu-docker-openresty-pagespeed
+FROM devgeniem/ubuntu-docker-openresty-pagespeed:beta
 MAINTAINER Ville Pietarinen - Geniem Oy <ville.pietarinen-nospam@geniem.com>
 
 ##
@@ -26,32 +26,29 @@ RUN \
         postfix \
         netcat \
         less \
-        libmcrypt-dev \
     && apt-get update \
     && apt-get -y --no-install-recommends install \
-        php7.1-cli \
-        php7.1-common \
-        php7.1-apcu \
-        php7.1-apcu-bc \
-        php7.1-curl \
-        php7.1-json \
-        php7.1-mcrypt \
-        php7.1-opcache \
-        php7.1-readline \
-        php7.1-xml \
-        php7.1-zip \
-        php7.1-fpm \
-        php7.1-redis \
-        php7.1-mongodb \
-        php7.1-mysqli \
-        php7.1-intl \
-        php7.1-gd \
-        php7.1-mbstring \
-        php7.1-soap \
-        php7.1-bcmath \
-        php7.1-curl \
-        php7.1-ldap \
-        php7.1-mcrypt \
+        php7.2-cli \
+        php7.2-common \
+        php7.2-apcu \
+        php7.2-apcu-bc \
+        php7.2-curl \
+        php7.2-json \
+        php7.2-opcache \
+        php7.2-readline \
+        php7.2-xml \
+        php7.2-zip \
+        php7.2-fpm \
+        php7.2-redis \
+        php7.2-mongodb \
+        php7.2-mysqli \
+        php7.2-intl \
+        php7.2-gd \
+        php7.2-mbstring \
+        php7.2-soap \
+        php7.2-bcmath \
+        php7.2-curl \
+        php7.2-ldap \
     # Force install only cron without extra mailing dependencies
     && cd /tmp \
     && apt-get download cron \
@@ -100,7 +97,7 @@ RUN set -x \
     && mkdir -p /var/www/uploads \
     && mkdir -p /dev/cache \
     && mkdir -p /tmp/php-opcache \
-    && ln -sf /usr/sbin/php-fpm7.1 /usr/sbin/php-fpm \
+    && ln -sf /usr/sbin/php-fpm7.2 /usr/sbin/php-fpm \
     && ln -sf /usr/bin/wp /usr/local/bin/wp
 # This is for your project root
 ENV PROJECT_ROOT="/var/www/project"
@@ -165,7 +162,7 @@ ENV \
     # Amount of memory in MB to allocate for opcache
     PHP_OPCACHE_MAX_MEMORY="128" \
     # Use host machine as default SMTP_HOST
-    SMTP_HOST="172.17.1.1" \
+    SMTP_HOST="172.17.2.1" \
     # This folder is used to mount files into host machine
     # You should use this path for your uploads since everything else should be ephemeral
     UPLOADS_ROOT="/var/www/uploads" \
