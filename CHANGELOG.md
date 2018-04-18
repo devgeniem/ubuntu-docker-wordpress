@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.1.1] - 2018-04-18
+### Changed
+- 7.1 image to point to docker hub instead of private repository
+
+### Removed
+- php 7.2 and 7.1 package that adds apache2 that is not needed
+
 ## [1.1.0] - 2018-01-18
 ### Added
 - GOOGLE_CLOUD_STORAGE_BUCKET_NAME env variable for nginx

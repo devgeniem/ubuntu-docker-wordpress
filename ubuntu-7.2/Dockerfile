@@ -27,7 +27,6 @@ RUN \
         netcat \
         less \
     && apt-get update \
-    && apt-get -y install php7.2 \
     && apt-get -y --no-install-recommends install \
         php7.2-cli \
         php7.2-common \

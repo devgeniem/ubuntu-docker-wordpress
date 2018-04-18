@@ -1,4 +1,4 @@
-FROM ci.gpilvi.com:5000/devgeniem/ubuntu-docker-openresty-pagespeed
+FROM devgeniem/ubuntu-docker-openresty-pagespeed
 MAINTAINER Ville Pietarinen - Geniem Oy <ville.pietarinen-nospam@geniem.com>
 
 ##
@@ -28,7 +28,6 @@ RUN \
         less \
         libmcrypt-dev \
     && apt-get update \
-    && apt-get -y install php7.1 \
     && apt-get -y --no-install-recommends install \
         php7.1-cli \
         php7.1-common \
