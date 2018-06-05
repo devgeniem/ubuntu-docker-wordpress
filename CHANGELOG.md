@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.2.1] - 2018-06-04
+### Changed
+- image now reads config from project's nginx/environments/x/root to / block
+- image now reads skipcache rules from nginx/skipcache folder skip_cache.conf is deprecated and will be removed soon. 
+
 ## [1.2.0] - 2018-04-30
 ### Added
 - PHP 7.0 option
