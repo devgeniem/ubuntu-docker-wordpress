@@ -52,6 +52,9 @@ VARS+='$REDIS_HOST:$REDIS_PORT:$REDIS_DATABASE:$REDIS_PASSWORD:$NGINX_REDIS_CACH
 # Add image proxy variables
 VARS+='$GOOGLE_CLOUD_STORAGE_BUCKET_NAME'
 
+# Add cache variables
+VARS+='$NGINX_CACHE_USE_STALE:$NGINX_CACHE_CONTROL'
+
 render_env_tmpl "$VARS" /etc/nginx/cache/redis_backend.conf
 
 render_env_tmpl "$VARS" /etc/nginx/cache/srcache.conf
