@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.2.1] - 2018-10-18
+
+### Added
+- added tags latest to php7.0 and php7.1
+
+### Changed
+- changed php 7.2 tag from beta to php72
+
 ## [1.2.1] - 2018-06-04
 ### Changed
 - image now reads config from project's nginx/environments/x/root to / block
