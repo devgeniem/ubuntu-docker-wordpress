@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.2.2] - 2018-10-22
+
+### Added
+- added a possibility to set plain text basic auth password via BASIC_AUTH_PASSWORD env.
+
 ## [1.2.1] - 2018-10-18
 
 ### Added

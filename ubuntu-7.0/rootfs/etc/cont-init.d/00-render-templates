@@ -43,6 +43,15 @@ export REDIS_DATABASE=${REDIS_DATABASE-0}
 export REDIS_PASSWORD=${REDIS_PASSWORD-''}
 export REDIS_CACHE_TTL=${REDIS_CACHE_TTL-14400}
 
+# Encrypt basic auth password if it set
+if [[ -z "${BASIC_AUTH_PASSWORD}" ]];
+then
+    echo "Not encrypting BASIC_AUTH_PASSWORD..."
+else
+    echo "Encrypting BASIC_AUTH_PASSWORD..."
+    export BASIC_AUTH_PASSWORD_HASH=$(openssl passwd -crypt $BASIC_AUTH_PASSWORD)
+fi
+
 # Add helper variables for AWS s3 bucket storage
 VARS+='$AWS_S3_BUCKET_NAME:AWS_S3_REPLICA_BUCKET_NAME'
 
