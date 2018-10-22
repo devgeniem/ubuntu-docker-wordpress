@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed
+- include `proxy_real_variables.conf` earlier so they can be used in included configs later on
+
 ## [1.2.1] - 2018-10-18
 
 ### Added
