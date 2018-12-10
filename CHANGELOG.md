@@ -10,6 +10,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - A possibility to define accepted query parameters for cache in environment variables.
 - A possibility to define customizations for the cache key by project, e.g. by cookies and/or location.
 
+## [1.2.3] - 2018-12-10
+
+### Changed
+- srcache log parameter changed to upstream_cache_status since we use fastcgi cache now
+
+### Added
+- hostname to logs to see what domain the request is affecting
+
 ## [1.2.2] - 2018-10-22
 
 ### Added
