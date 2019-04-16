@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.2.2] - 2019-04-16
+### Added
+- option to enable fast cgi caching for given query parameters in CACHE_QUERYVARS env
+
 ## [1.2.1] - 2018-06-04
 ### Changed
 - image now reads config from project's nginx/environments/x/root to / block
