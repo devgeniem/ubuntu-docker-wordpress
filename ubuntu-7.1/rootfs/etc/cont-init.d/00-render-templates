@@ -73,3 +73,13 @@ for conf_file in $(find $NGINX_INCLUDE_DIR -type f  -name '*.tmpl'); do
     VARS_TMPL=$VARS':$__DIR__'
     render_env_tmpl "$VARS_TMPL" $conf_file
 done
+
+# Encrypt basic auth password if it set
+if [[ -z "${BASIC_AUTH_PASSWORD}" ]];
+then
+    echo "Not encrypting BASIC_AUTH_PASSWORD..."
+else
+    BASIC_AUTH_PASSWORD_HASH=$(openssl passwd -crypt $BASIC_AUTH_PASSWORD)
+    echo "Encrypting BASIC_AUTH_PASSWORD... ${BASIC_AUTH_PASSWORD} -> ${BASIC_AUTH_PASSWORD_HASH}"
+    echo "${BASIC_AUTH_USER}:${BASIC_AUTH_PASSWORD_HASH}" > /var/www/project/nginx/environments/${WP_ENV}/server/.htpasswd
+fi

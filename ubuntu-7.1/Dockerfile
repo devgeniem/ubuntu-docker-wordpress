@@ -1,4 +1,4 @@
-FROM devgeniem/ubuntu-docker-openresty-pagespeed
+FROM devgeniem/ubuntu-docker-openresty-pagespeed:latest
 MAINTAINER Ville Pietarinen - Geniem Oy <ville.pietarinen-nospam@geniem.com>
 
 ##

@@ -6,9 +6,33 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+
 ## [1.2.2] - 2019-04-16
 ### Added
 - option to enable fast cgi caching for given query parameters in CACHE_QUERYVARS env
+- A possibility to define accepted query parameters for cache in environment variables.
+- A possibility to define customizations for the cache key by project, e.g. by cookies and/or location.
+
+## [1.2.3] - 2018-12-10
+
+### Changed
+- srcache log parameter changed to upstream_cache_status since we use fastcgi cache now
+
+### Added
+- hostname to logs to see what domain the request is affecting
+
+## [1.2.2] - 2018-10-22
+
+### Added
+- added a possibility to set plain text basic auth password via BASIC_AUTH_PASSWORD env.
+
+## [1.2.1] - 2018-10-18
+
+### Added
+- added tags latest to php7.0 and php7.1
+
+### Changed
+- changed php 7.2 tag from beta to php72
 
 ## [1.2.1] - 2018-06-04
 ### Changed
