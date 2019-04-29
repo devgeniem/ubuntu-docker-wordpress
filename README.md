@@ -130,9 +130,24 @@ NGINX_MAX_BODY_SIZE=64M
 NGINX_FASTCGI_TIMEOUT=30
 ```
 
+```
+# These defaulta are only for PHP 7.3
+# Default fastcgi cache directory
+NGINX_CACHE_DIRECTORY=/dev/cache
+
+# Default operations when fastcgi stale cache is used
+NGINX_CACHE_USE_STALE="error timeout invalid_header updating http_500 http_503 http_403 http_404 http_429"
+
+
+NGINX_REDIS_CACHE_TTL_DEFAULT="200 301 302 1m"
+
+# Default headers for fastcgi stale- and error cache
+NGINX_CACHE_CONTROL='"max-age=60, stale-while-revalidate=300, stale-if-error=21600"'
+```
+
 ## What's inside container:
 ### For running WordPress
-- php7
+- php7.xx
 - php-fpm7
 - nginx
 - wp-cli
