@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [1.2.4] - 2019-05-16
 ### Added
-- added support for fullpage cache accepted parameters in env CACHE_QUERYVARS
+- Fixed cache parameter location and keyname typo for lua cachekey (only php73)
 
 ## [1.2.3] - 2019-05-16
 ### Added
