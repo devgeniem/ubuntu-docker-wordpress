@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.2.4] - 2019-05-16
+### Added
+- added support for fullpage cache accepted parameters in env CACHE_QUERYVARS
+
 ## [1.2.3] - 2019-05-16
 ### Added
 - added support for fullpage cache accepted parameters in env CACHE_QUERYVARS
