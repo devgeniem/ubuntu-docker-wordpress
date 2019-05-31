@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 - include `proxy_real_variables.conf` earlier so they can be used in included configs later on
+- use devgeniem/ubuntu-docker-openresty-pagespeed:beta2 image as base (nginx shibboleth module and headers-more)
 
 ## [1.2.1] - 2018-10-18
 
