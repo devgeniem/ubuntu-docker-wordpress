@@ -126,6 +126,11 @@ ENV \
     # Time units supported are "s"(seconds), "ms"(milliseconds), "y"(years), "M"(months), "w"(weeks), "d"(days), "h"(hours), and "m"(minutes).
     NGINX_REDIS_CACHE_TTL_DEFAULT="900" \
     NGINX_REDIS_CACHE_TTL_MAX="4h" \
+    NGINX_CACHE_DIRECTORY="/dev/cache" \
+    # Default operations when fastcgi stale cache is used
+    NGINX_CACHE_USE_STALE="error timeout invalid_header updating http_500 http_503 http_403 http_404 http_429" \
+    # Default headers for fastcgi stale- and error cache
+    NGINX_CACHE_CONTROL='"max-age=60, stale-while-revalidate=300, stale-if-error=21600"'\    
     # Cronlock is used to stop simultaneous cronjobs in clusterised environments
     CRONLOCK_HOST="" \
     # This is used by nginx and php-fpm

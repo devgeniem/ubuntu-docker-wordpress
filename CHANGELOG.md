@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.2.3] - 2019-06-03
+### changed
+- fixed cache var default values for php71 and php72
 
 ## [1.2.2] - 2019-04-16
 ### Added
