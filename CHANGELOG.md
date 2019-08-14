@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.2.4] - 2019-08-14
+### Added 
+- #Load custom environment variables -> include env.conf;
+
 ## [1.2.3] - 2019-06-03
 ### changed
 - fixed cache var default values for php71 and php72
