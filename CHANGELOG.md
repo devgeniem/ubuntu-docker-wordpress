@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.2.6] - 2019-08-22
+### Changed
+- Changed php error log path to /dev/stderr for php 72 and 73
+
 ## [1.2.5] - 2019-08-21
 ### Added 
 - set cache header to be shown always, including 404

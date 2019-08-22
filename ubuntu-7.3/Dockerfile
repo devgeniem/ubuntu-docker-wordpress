@@ -150,7 +150,7 @@ ENV \
     # Have sane fastcgi timeout by default
     NGINX_ERROR_LEVEL="warn" \
     # Have sane fastcgi timeout by default
-    NGINX_ERROR_LOG="stderr" \
+    NGINX_ERROR_LOG="/dev/stderr" \
     # Have sane fastcgi timeout by default
     NGINX_ACCESS_LOG="/dev/stdout" \
     # Default cache key for nginx http cache
