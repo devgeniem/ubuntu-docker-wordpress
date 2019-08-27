@@ -17,7 +17,7 @@ RUN \
     && add-apt-repository ppa:ondrej/php \
     && apt-get -y --no-install-recommends install \
         apt-utils \
-        curl \
+        curl \  
         nano \
         ca-certificates \
         git \
