@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - include `proxy_real_variables.conf` also in `location /`
 - `proxy_real_variables.conf` included also with php7.3
+- shibboleth fastcgi support
 
 ### Changed
 - include `proxy_real_variables.conf` earlier so they can be used in included configs later on
