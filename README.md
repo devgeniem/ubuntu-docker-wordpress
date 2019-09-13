@@ -143,6 +143,12 @@ NGINX_REDIS_CACHE_TTL_DEFAULT="200 301 302 1m"
 
 # Default headers for fastcgi stale- and error cache
 NGINX_CACHE_CONTROL='"max-age=60, stale-while-revalidate=300, stale-if-error=21600"'
+
+# list of parameters to be included in cached requests separated by comma (default empty)
+CACHE_QUERYVARS=
+
+# Cache mode blacklist or whitelist, default whitelist (possible values: blacklist, whitelist)
+CACHE_MODE=
 ```
 
 ## What's inside container:
