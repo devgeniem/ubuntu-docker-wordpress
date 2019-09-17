@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.2.9] - 2019-09-17
+### Changed
+- Fixed another php7.0 build error
+
 ## [1.2.8] - 2019-09-16
 ### Changed
 - Fixed php7.2 build error
