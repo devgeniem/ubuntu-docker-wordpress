@@ -30,8 +30,8 @@ RUN \
     && apt-get -y --no-install-recommends install \
         php7.4-cli \
         php7.4-common \
-        php7.4-apcu \
-        php7.4-apcu-bc \
+        # php7.4-apcu \
+        # php7.4-apcu-bc \
         php7.4-curl \
         php7.4-json \
         php7.4-opcache \
@@ -39,8 +39,8 @@ RUN \
         php7.4-xml \
         php7.4-zip \
         php7.4-fpm \
-        php7.4-redis \
-        php7.4-mongodb \
+        # php7.4-redis \
+        # php7.4-mongodb \
         php7.4-mysqli \
         php7.4-intl \
         php7.4-gd \
