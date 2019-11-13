@@ -47,6 +47,9 @@ You can have custom nginx includes in your project mount `/var/www/project/nginx
 **Include into server {} block:**
 `/var/www/project/nginx/server/*.conf`
 
+**Include into @index {} block:**
+`/var/www/project/nginx/index/*.conf`
+
 See more in our [wp-project template](https://github.com/devgeniem/wp-project).
 
 ## Cron jobs
