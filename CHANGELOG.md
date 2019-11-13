@@ -4,41 +4,63 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.4.1] - 2019-11-13
+
+### Added
+- possibility to add nginx configuration to @index location
+
+## [1.4.0] - 2019-11-11
+
+### Added
+- Force /robots.txt to always serve "disallow all" response when on development domains (gpilvi.com or geniem.io).
+
+## [1.3.0] - 2019-10-30
+
+### Added
+- Prevent loading of .dust files outside the specifically defined /partials/public directory.
 
 ## [1.2.10] - 2019-09-18
+
 ### Added
-- added a possibility to set plain text basic auth password via BASIC_AUTH_PASSWORD env.
+- A possibility to set plain text basic auth password via BASIC_AUTH_PASSWORD env.
 
 ## [1.2.9] - 2019-09-17
+
 ### Changed
 - Fixed another php7.0 build error
 
 ## [1.2.8] - 2019-09-16
+
 ### Changed
 - Fixed php7.2 build error
 
 ## [1.2.7] - 2019-09-16
+
 ### Changed
 - Fixed php7.0 build error
 
 ## [1.2.6] - 2019-08-22
+
 ### Changed
 - Changed php error log path to /dev/stderr for php 72 and 73
 
 ## [1.2.5] - 2019-08-21
+
 ### Added 
 - set cache header to be shown always, including 404
 
 ## [1.2.4] - 2019-08-14
+
 ### Added 
 - #Load custom environment variables -> include env.conf;
 
 ## [1.2.3] - 2019-06-03
+
 ### changed
 - fixed cache var default values for php71 and php72
 
 ## [1.2.2] - 2019-04-16
+
 ### Added
 - option to enable fast cgi caching for given query parameters in CACHE_QUERYVARS env
 - A possibility to define accepted query parameters for cache in environment variables.
