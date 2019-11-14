@@ -26,11 +26,13 @@ RUN \
         postfix \
         netcat \
         less \
+        build-essential \
     && apt-get update \
     && apt-get -y --no-install-recommends install \
+        php7.4-dev \
         php7.4-cli \
         php7.4-common \
-        # php7.4-apcu \
+        php7.4-apcu \
         # php7.4-apcu-bc \
         php7.4-curl \
         php7.4-json \
@@ -40,7 +42,7 @@ RUN \
         php7.4-zip \
         php7.4-fpm \
         # php7.4-redis \
-        # php7.4-mongodb \
+        php7.4-mongodb \
         php7.4-mysqli \
         php7.4-intl \
         php7.4-gd \
@@ -49,6 +51,8 @@ RUN \
         php7.4-bcmath \
         php7.4-curl \
         php7.4-ldap \
+        php-pear \
+    && pecl install redis \
     # Force install only cron without extra mailing dependencies
     && cd /tmp \
     && apt-get download cron \
