@@ -1,4 +1,4 @@
-FROM devgeniem/ubuntu-docker-openresty-pagespeed:edge
+FROM devgeniem/ubuntu-docker-tengine
 MAINTAINER Ville Pietarinen - Geniem Oy <ville.pietarinen-nospam@geniem.com>
 
 ##
