@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.2.4] - 2019-12-03
+### Added
+- index block for project
+
 ## [1.2.4] - 2019-05-16
 ### Added
 - Fixed cache parameter location and keyname typo for lua cachekey (only php73)
