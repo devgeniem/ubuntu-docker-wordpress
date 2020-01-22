@@ -13,7 +13,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 ##
 RUN \
     apt-get update \
-&& apt-get -y install software-properties-common \
+&& apt-get -y --no-install-recommends install software-properties-common \
     && add-apt-repository ppa:ondrej/php \
     && apt-get -y --no-install-recommends install \
         apt-utils \
