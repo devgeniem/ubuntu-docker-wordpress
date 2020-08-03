@@ -60,6 +60,7 @@ render_env_tmpl "$VARS" /etc/nginx/cache/redis_backend.conf
 render_env_tmpl "$VARS" /etc/nginx/cache/srcache.conf
 render_env_tmpl "$VARS" /etc/nginx/cache/fastcgicache_settings.conf
 render_env_tmpl "$VARS" /etc/nginx/cache/fastcgicache_skip_rules.conf
+render_env_tmpl "$VARS" /etc/nginx/cache/fastcgicache_headers.conf
 ##
 # Render all user provided nginx templates
 ##
