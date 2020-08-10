@@ -6,12 +6,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 
 
-## [1.5.2] - 2020-08-04
+## [1.5.2] - 2020-08-10
 
 ### Added
 - socklog to log syslog and cronlog for better debugging
 - added wordpress_sec cookie to skip fullpage cache
 - more security headers
+- updated socklog to latest version
 
 ### Fixed
 - headers where added in many places which made them not working correctly. Now headers are added in one place. For any headeres please use XXX_headers.conf files in 
