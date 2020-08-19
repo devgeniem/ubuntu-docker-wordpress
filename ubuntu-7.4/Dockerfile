@@ -1,4 +1,4 @@
-FROM devgeniem/ubuntu-docker-openresty-pagespeed:beta
+FROM devgeniem/ubuntu-docker-openresty-pagespeed:edge
 MAINTAINER Ville Pietarinen - Geniem Oy <ville.pietarinen-nospam@geniem.com>
 
 ##
@@ -13,7 +13,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 ##
 RUN \
     apt-get update \
-&& apt-get -y install software-properties-common \
+&& apt-get -y --no-install-recommends install software-properties-common \
     && add-apt-repository ppa:ondrej/php \
     && apt-get -y --no-install-recommends install \
         apt-utils \
