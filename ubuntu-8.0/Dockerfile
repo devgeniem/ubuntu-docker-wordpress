@@ -36,16 +36,22 @@ RUN apt-get -y --no-install-recommends install pkg-config libxml2-dev openssl li
     && mkdir -p modules \
 
     && mkdir -p /usr/local/lib/php/extensions/no-debug-non-zts-20200930/ \
-    &&  ./configure --build=i686 --target=i686 --host=i686 --with-mysql-sock=/run/mysqld/mysqld.sock --enable-fpm --enable-mbstring --enable-exif --enable-ftp --with-zip --enable-soap --with-mysqli --with-pdo-mysql --with-curl --with-openssl --with-bz2 --enable-gd --with-webp --with-jpeg --with-freetype --with-xsl --with-pear \\
+    && ./buildconf \
+    && ./configure --build=x86_64-linux-gnu --target=x86_64-linux-gnu --host=x86_64-linux-gnu --with-mysql-sock=/run/mysqld/mysqld.sock --enable-fpm --enable-mbstring --enable-exif --enable-ftp --with-zip --enable-soap --with-mysqli --with-pdo-mysql --with-curl --with-openssl --with-bz2 --enable-gd --with-webp --with-jpeg --with-freetype --with-xsl --with-pear --libdir=\\/usr/lib/php \
+--prefix=/var \
+--libexecdir=/var/bin/php \
+--datadir=/usr/share/php \
+--sysconfdir=/etc \
+--localstatedir=/var \
+--mandir=/usr/share/man \
     && make -j4 \
     && make install \
-
     && cd .. \
     && rm -rf php-8.0.0*
 
-RUN pecl install redis \
+# RUN pecl install redis \
     # Force install only cron without extra mailing dependencies
-    && apt-get download cron \
+RUN apt-get download cron \
     && dpkg --force-all -i cron*.deb \
     && mkdir -p /var/spool/cron/crontabs \
     # Cleanup
