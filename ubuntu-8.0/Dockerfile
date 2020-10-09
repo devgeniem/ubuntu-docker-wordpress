@@ -14,6 +14,8 @@ ARG DEBIAN_FRONTEND=noninteractive
 RUN \
     apt-get update \
 && apt-get -y --no-install-recommends install software-properties-common \
+    && add-apt-repository ppa:ondrej/php \
+    && add-apt-repository ppa:ondrej/php-qa \
     && apt-get -y --no-install-recommends install \
         apt-utils \
         curl \
@@ -26,32 +28,35 @@ RUN \
         netcat \
         less \
         build-essential \
-        wget
-RUN cd /tmp \
-    && wget https://downloads.php.net/~carusogabriel/php-8.0.0rc1.tar.gz
-RUN apt-get -y --no-install-recommends install pkg-config libxml2-dev openssl libssl-dev sqlite3 libsqlite3-dev zlib1g-dev libbz2-dev libcurl4-openssl-dev libpng-dev libwebp-dev libjpeg-dev libfreetype6-dev libonig-dev libxslt1-dev libzip-dev autoconf \
-    && cd /tmp \
-    && tar xf php-8.0.0rc1.tar.gz \
-    && cd php-8.0.0rc1 \
-    && mkdir -p modules \
-
-    && mkdir -p /usr/local/lib/php/extensions/no-debug-non-zts-20200930/ \
-    && ./buildconf \
-    && ./configure --build=x86_64-linux-gnu --target=x86_64-linux-gnu --host=x86_64-linux-gnu --with-mysql-sock=/run/mysqld/mysqld.sock --enable-fpm --enable-mbstring --enable-exif --enable-ftp --with-zip --enable-soap --with-mysqli --with-pdo-mysql --with-curl --with-openssl --with-bz2 --enable-gd --with-webp --with-jpeg --with-freetype --with-xsl --with-pear --libdir=\\/usr/lib/php \
---prefix=/var \
---libexecdir=/var/bin/php \
---datadir=/usr/share/php \
---sysconfdir=/etc \
---localstatedir=/var \
---mandir=/usr/share/man \
-    && make -j4 \
-    && make install \
-    && cd .. \
-    && rm -rf php-8.0.0*
-
-# RUN pecl install redis \
+    && apt-get update \
+    && apt-get -y --no-install-recommends install \
+        php8.0-dev \
+        php8.0-cli \
+        php8.0-common \
+        # php8.0-apcu-bc \
+        php8.0-curl \
+        php8.0-opcache \
+        php8.0-readline \
+        php8.0-xml \
+        php8.0-zip \
+        php8.0-fpm \
+        # php8.0-redis \
+        php8.0-mysqli \
+        php8.0-intl \
+        php8.0-gd \
+        php8.0-mbstring \
+        php8.0-soap \
+        php8.0-bcmath \
+        php8.0-curl \
+        php8.0-ldap \
+        php-pear \
     # Force install only cron without extra mailing dependencies
-RUN apt-get download cron \
+    && cd /tmp \
+    && curl https://github.com/FriendsOfPHP/pickle/releases/download/v0.6.0/pickle.phar --output pickle.phar \
+    && mv pickle.phar /usr/local/bin/pickle \
+    && chmod +x /usr/local/bin/pickle \
+    && pickle install redis \
+    && apt-get download cron \
     && dpkg --force-all -i cron*.deb \
     && mkdir -p /var/spool/cron/crontabs \
     # Cleanup
@@ -97,7 +102,7 @@ RUN set -x \
     && mkdir -p /var/www/uploads \
     && mkdir -p /dev/cache \
     && mkdir -p /tmp/php-opcache \
-    && ln -sf /usr/sbin/php-fpm7.4 /usr/sbin/php-fpm \
+    && ln -sf /usr/sbin/php-fpm8.0 /usr/sbin/php-fpm \
     && ln -sf /usr/bin/wp /usr/local/bin/wp
 # This is for your project root
 ENV PROJECT_ROOT="/var/www/project"
