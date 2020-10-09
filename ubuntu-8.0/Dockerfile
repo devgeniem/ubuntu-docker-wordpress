@@ -52,10 +52,6 @@ RUN \
         php-pear \
     # Force install only cron without extra mailing dependencies
     && cd /tmp \
-    && curl https://github.com/FriendsOfPHP/pickle/releases/download/v0.6.0/pickle.phar --output pickle.phar \
-    && mv pickle.phar /usr/local/bin/pickle \
-    && chmod +x /usr/local/bin/pickle \
-    && pickle install redis \
     && apt-get download cron \
     && dpkg --force-all -i cron*.deb \
     && mkdir -p /var/spool/cron/crontabs \
@@ -64,6 +60,15 @@ RUN \
     && apt-get autoremove \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/* /var/log/apt/* /var/log/*.log
 
+# Install PHP-Redis
+RUN \
+    cd /tmp \
+    && git clone https://github.com/phpredis/phpredis.git \
+    && cd phpredis \
+    && phpize \
+    && ./configure \
+    && make \
+    && make install
 
 # Install helpers
 RUN \
