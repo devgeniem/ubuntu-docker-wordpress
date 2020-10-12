@@ -130,9 +130,12 @@ ENV \
     # Time units supported are "s"(seconds), "ms"(milliseconds), "y"(years), "M"(months), "w"(weeks), "d"(days), "h"(hours), and "m"(minutes).
     # Also http response codes that are cached can be set
     NGINX_REDIS_CACHE_TTL_DEFAULT="200 301 302 1m" \
+    NGINX_FASTCGI_CACHE_VALID="404 1m" \
     NGINX_REDIS_CACHE_TTL_MAX="4h" \
     # Default fastcgi cache directory
-    NGINX_CACHE_DIRECTORY="/dev/cache" \
+    NGINX_CACHE_DIRECTORY="/tmp/nginx/fullpage" \
+    # Default fastcgi cache size
+    NGINX_CACHE_MAX_SIZE="1000m" \
     # Default operations when fastcgi stale cache is used
     NGINX_CACHE_USE_STALE="error timeout invalid_header updating http_500 http_503 http_403 http_404 http_429" \
     # Default headers for fastcgi stale- and error cache
@@ -194,4 +197,3 @@ RUN echo 'LANG="en_US.UTF-8"' > /etc/default/locale
 WORKDIR ${PROJECT_ROOT}
 EXPOSE ${PORT}
 ENTRYPOINT ["/init"]
-
