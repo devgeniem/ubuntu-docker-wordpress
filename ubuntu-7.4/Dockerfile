@@ -136,6 +136,7 @@ ENV \
     NGINX_FASTCGI_CACHE_USE_STALE="error timeout invalid_header updating http_500 http_503 http_403 http_404 http_429" \
     # Default headers for fastcgi stale- and error cache
     NGINX_FASTCGI_CACHE_CONTROL='"max-age=60, stale-while-revalidate=300, stale-if-error=21600"'\
+    NGINX_CACHE_CONTROL='"max-age=60, stale-while-revalidate=300, stale-if-error=21600"'\
     #Default time for fastcgi cache path inactive attribute
     NGINX_FASTCGI_CACHE_INACTIVE="730h"
     #Fastcgi default value for updating cache on background
