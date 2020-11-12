@@ -4,6 +4,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+
+
+## [1.5.2] - 2020-08-10
+
+### Added
+- socklog to log syslog and cronlog for better debugging
+- added wordpress_sec cookie to skip fullpage cache
+- more security headers
+- updated socklog to latest version
+
+### Fixed
+- headers where added in many places which made them not working correctly. Now headers are added in one place. For any headeres please use XXX_headers.conf files in 
+- php cli errorlog forwarded to /proc/1/fd/2 to make it work
+
+## [1.5.1] - 2020-xx-xx
+
 ### Fixed
 - Updated error page external libraries to new versions
 

@@ -70,7 +70,6 @@ RUN \
     # Install composer
     ##
     curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
-    && composer global require hirak/prestissimo \
 
     ##
     # Install wp-cli
@@ -130,9 +129,12 @@ ENV \
     # Time units supported are "s"(seconds), "ms"(milliseconds), "y"(years), "M"(months), "w"(weeks), "d"(days), "h"(hours), and "m"(minutes).
     # Also http response codes that are cached can be set
     NGINX_REDIS_CACHE_TTL_DEFAULT="200 301 302 1m" \
+    NGINX_FASTCGI_CACHE_VALID="404 1m" \
     NGINX_REDIS_CACHE_TTL_MAX="4h" \
     # Default fastcgi cache directory
-    NGINX_CACHE_DIRECTORY="/dev/cache" \
+    NGINX_CACHE_DIRECTORY="/tmp/nginx/fullpage" \
+    # Default fastcgi cache size
+    NGINX_CACHE_MAX_SIZE="1000m" \
     # Default operations when fastcgi stale cache is used
     NGINX_CACHE_USE_STALE="error timeout invalid_header updating http_500 http_503 http_403 http_404 http_429" \
     # Default headers for fastcgi stale- and error cache
@@ -183,8 +185,14 @@ ENV \
     # Make sure that all files here have execute permissions
 RUN dpkg-reconfigure tzdata && \
     chmod +x /etc/cont-init.d/*
+
+# Install socklog-overlay
+ADD https://github.com/just-containers/socklog-overlay/releases/download/v3.1.0-2/socklog-overlay-amd64.tar.gz /tmp/
+RUN tar xzf /tmp/socklog-overlay-amd64.tar.gz -C /
+RUN echo '+\n1' > /etc/socklog.rules/forward-stdout
+RUN echo 'LANG="en_US.UTF-8"' > /etc/default/locale
+
 # Set default path to project folder for easier running commands in project
 WORKDIR ${PROJECT_ROOT}
 EXPOSE ${PORT}
 ENTRYPOINT ["/init"]
-

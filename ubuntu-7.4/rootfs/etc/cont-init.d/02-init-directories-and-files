@@ -16,3 +16,6 @@ touch /var/log/php/error.log
 
 # Chown all files to wordpress
 chown -R $WEB_USER:$WEB_GROUP /var/log/{nginx,php,mail}
+
+chmod 775 /sharedcache
+chmod g+s /sharedcache

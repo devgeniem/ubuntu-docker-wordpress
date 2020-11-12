@@ -180,6 +180,13 @@ ENV \
     # Make sure that all files here have execute permissions
 RUN dpkg-reconfigure tzdata && \
     chmod +x /etc/cont-init.d/*
+
+# Install socklog-overlay
+ADD https://github.com/just-containers/socklog-overlay/releases/download/v3.1.0-2/socklog-overlay-amd64.tar.gz /tmp/
+RUN tar xzf /tmp/socklog-overlay-amd64.tar.gz -C /
+RUN echo '+\n1' > /etc/socklog.rules/forward-stdout
+RUN echo 'LANG="en_US.UTF-8"' > /etc/default/locale
+
 # Set default path to project folder for easier running commands in project
 WORKDIR ${PROJECT_ROOT}
 EXPOSE ${PORT}
