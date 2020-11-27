@@ -15,7 +15,6 @@ RUN \
     apt-get update \
 && apt-get -y --no-install-recommends install software-properties-common \
     && add-apt-repository ppa:ondrej/php \
-    && add-apt-repository ppa:ondrej/php-qa \
     && apt-get -y --no-install-recommends install \
         apt-utils \
         curl \
