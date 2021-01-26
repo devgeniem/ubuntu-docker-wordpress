@@ -98,7 +98,6 @@ COPY rootfs/ /
 # Run small fixes
 RUN set -x \
     && mkdir -p /var/www/uploads \
-    && mkdir -p /dev/cache \
     && mkdir -p /tmp/php-opcache \
     && ln -sf /usr/sbin/php-fpm7.0 /usr/sbin/php-fpm \
     && ln -sf /usr/bin/wp /usr/local/bin/wp
@@ -129,7 +128,7 @@ ENV \
     # Time units supported are "s"(seconds), "ms"(milliseconds), "y"(years), "M"(months), "w"(weeks), "d"(days), "h"(hours), and "m"(minutes).
     NGINX_REDIS_CACHE_TTL_DEFAULT="900" \
     NGINX_REDIS_CACHE_TTL_MAX="4h" \
-    NGINX_CACHE_DIRECTORY="/dev/cache" \
+    NGINX_CACHE_DIRECTORY="/tmp/nginx/fullpage" \
     # Default operations when fastcgi stale cache is used
     NGINX_CACHE_USE_STALE="error timeout invalid_header updating http_500 http_503 http_403 http_404" \
     # Default headers for fastcgi stale- and error cache
