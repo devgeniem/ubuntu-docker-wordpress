@@ -5,6 +5,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 
+## [1.6] - 2021-01-27
+### Removed
+- old php versions
+
+### Added
+- more envs for configuring  
+- ignore cache key attributes
+- renamed envs for clarity
+
 
 ## [1.5.2] - 2020-08-10
 
