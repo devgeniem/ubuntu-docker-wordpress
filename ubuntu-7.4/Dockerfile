@@ -136,9 +136,9 @@ ENV \
     NGINX_FASTCGI_CACHE_CONTROL='"max-age=60, stale-while-revalidate=300, stale-if-error=21600"'\
     NGINX_CACHE_CONTROL='"max-age=60, stale-while-revalidate=300, stale-if-error=21600"'\
     #Default time for fastcgi cache path inactive attribute
-    NGINX_FASTCGI_CACHE_INACTIVE="730h"
+    NGINX_FASTCGI_CACHE_INACTIVE="730h" \
     #Fastcgi default value for updating cache on background
-    NGINX_FASTCGI_CACHE_BACKGROUND_UPDATE="on"
+    NGINX_FASTCGI_CACHE_BACKGROUND_UPDATE="on" \
     # Cronlock is used to stop simultaneous cronjobs in clusterised environments
     CRONLOCK_HOST="" \
     # This is used by nginx and php-fpm
