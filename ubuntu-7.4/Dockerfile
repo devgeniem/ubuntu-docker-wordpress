@@ -171,7 +171,8 @@ ENV \
     PHP_PM_MAX_CHILDREN="25" \
     PHP_PM_START_SERVERS="8" \
     PHP_PM_MIN_SPARE_SERVERS="2" \
-    PHP_PM_MAX_SPARE_SERVERS="4" \    
+    PHP_PM_MAX_SPARE_SERVERS="4" \
+    PHP_DISABLE_FUNCTIONS="exec,passthru,shell_exec,show_source,system,pcntl_exec,popen,posix_getpwuid,posix_kill,posix_mkfifo,posix_setpgid,posix_setsid,posix_setuid,posix_setuid,posix_uname,proc_nice,proc_open,proc_close,proc_get_status" \
     # You should count the *.php files in your project and set this number to be bigger
     # $ find . -type f -print | grep php | wc -l
     PHP_OPCACHE_MAX_FILES="8000" \

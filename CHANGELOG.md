@@ -14,7 +14,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - php process manager configurable from envs
 - ignore cache key attributes
 - renamed envs for clarity
-
+- PHP_DISABLE_FUNCTIONS env
 
 ## [1.5.2] - 2020-08-10
 
