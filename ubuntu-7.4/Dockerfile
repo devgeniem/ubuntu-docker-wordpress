@@ -150,7 +150,7 @@ ENV \
     # Allow bigger file uploads
     NGINX_MAX_BODY_SIZE="20M" \
     # Allow storing bigger body in memory
-    NGINX_BODY_BUFFER_SIZE="32k" \
+    NGINX_BODY_BUFFER_SIZE="10M" \
     # Have sane fastcgi timeout by default
     NGINX_FASTCGI_TIMEOUT="30" \
     # Have sane fastcgi timeout by default
@@ -167,6 +167,11 @@ ENV \
     PHP_ERROR_LOG_MAX_LEN="8192" \
     PHP_SESSION_REDIS_DB="0" \
     PHP_SESSION_HANDLER="files" \
+    PHP_PM_MODE="dynamic" \
+    PHP_PM_MAX_CHILDREN="25" \
+    PHP_PM_START_SERVERS="8" \
+    PHP_PM_MIN_SPARE_SERVERS="2" \
+    PHP_PM_MAX_SPARE_SERVERS="4" \    
     # You should count the *.php files in your project and set this number to be bigger
     # $ find . -type f -print | grep php | wc -l
     PHP_OPCACHE_MAX_FILES="8000" \

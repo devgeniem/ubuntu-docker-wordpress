@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 - more envs for configuring  
+- php process manager configurable from envs
 - ignore cache key attributes
 - renamed envs for clarity
 
