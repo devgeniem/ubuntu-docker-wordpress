@@ -55,9 +55,6 @@ VARS+='$GOOGLE_CLOUD_STORAGE_BUCKET_NAME'
 # Add cache variables
 VARS+='$NGINX_FASTCGI_CACHE_VALID:$NGINX_FASTCGI_CACHE_VALID_2:$NGINX_FASTCGI_CACHE_VALID_3:$NGINX_FASTCGI_CACHE_VALID_4:$NGINX_FASTCGI_CACHE_VALID_5:$NGINX_FASTCGI_CACHE_MAX_SIZE:$NGINX_FASTCGI_CACHE_INACTIVE:$NGINX_FASTCGI_CACHE_BACKGROUND_UPDATE:$NGINX_CACHE_USE_STALE:$NGINX_FASTCGI_CACHE_CONTROL:$NGINX_FASTCGI_CACHE_DIRECTORY:$NGINX_FASTCGI_CACHE_USE_STALE'
 
-render_env_tmpl "$VARS" /etc/nginx/cache/redis_backend.conf
-
-render_env_tmpl "$VARS" /etc/nginx/cache/srcache.conf
 render_env_tmpl "$VARS" /etc/nginx/cache/fastcgicache_settings.conf
 render_env_tmpl "$VARS" /etc/nginx/cache/fastcgicache_skip_rules.conf
 render_env_tmpl "$VARS" /etc/nginx/cache/fastcgicache_headers.conf
@@ -77,8 +74,7 @@ for conf_file in $(find $NGINX_INCLUDE_DIR -type f  -name '*.tmpl'); do
 done
 
 # Encrypt basic auth password if it set
-if [[ -z "${BASIC_AUTH_PASSWORD}" ]];
-then
+if [ -z "$BASIC_AUTH_PASSWORD" ]; then
     echo "Not encrypting BASIC_AUTH_PASSWORD..."
 else
     BASIC_AUTH_PASSWORD_HASH=$(openssl passwd -crypt $BASIC_AUTH_PASSWORD)
