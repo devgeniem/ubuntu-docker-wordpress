@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 
+## [1.6.1] - 2021-02-25
+### Fixed
+- Redis envs rendered again to make redis work
+
 ## [1.6] - 2021-01-27
 ### Removed
 - old php versions
