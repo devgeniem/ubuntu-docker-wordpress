@@ -29,28 +29,23 @@ RUN \
         build-essential \
     && apt-get update \
     && apt-get -y --no-install-recommends install \
-        php7.4-dev \
-        php7.4-cli \
-        php7.4-common \
-        php7.4-apcu \
-        # php7.4-apcu-bc \
-        php7.4-curl \
-        php7.4-json \
-        php7.4-opcache \
-        php7.4-readline \
-        php7.4-xml \
-        php7.4-zip \
-        php7.4-fpm \
-        # php7.4-redis \
-        php7.4-mongodb \
-        php7.4-mysqli \
-        php7.4-intl \
-        php7.4-gd \
-        php7.4-mbstring \
-        php7.4-soap \
-        php7.4-bcmath \
-        php7.4-curl \
-        php7.4-ldap \
+        php8.0-dev \
+        php8.0-cli \
+        php8.0-common \
+        php8.0-curl \
+        php8.0-opcache \
+        php8.0-readline \
+        php8.0-xml \
+        php8.0-zip \
+        php8.0-fpm \
+        php8.0-mysqli \
+        php8.0-intl \
+        php8.0-gd \
+        php8.0-mbstring \
+        php8.0-soap \
+        php8.0-bcmath \
+        php8.0-curl \
+        php8.0-ldap \
         php-pear \
     && pecl install redis \
     # Force install only cron without extra mailing dependencies
@@ -63,6 +58,15 @@ RUN \
     && apt-get autoremove \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/* /var/log/apt/* /var/log/*.log
 
+# Install PHP-Redis
+RUN \
+    cd /tmp \
+    && git clone https://github.com/phpredis/phpredis.git \
+    && cd phpredis \
+    && phpize \
+    && ./configure \
+    && make \
+    && make install
 
 # Install helpers
 RUN \
@@ -99,7 +103,7 @@ COPY rootfs/ /
 RUN set -x \
     && mkdir -p /var/www/uploads \
     && mkdir -p /tmp/php-opcache \
-    && ln -sf /usr/sbin/php-fpm7.4 /usr/sbin/php-fpm \
+    && ln -sf /usr/sbin/php-fpm8.0 /usr/sbin/php-fpm \
     && ln -sf /usr/bin/wp /usr/local/bin/wp
 # This is for your project root
 ENV PROJECT_ROOT="/var/www/project"
