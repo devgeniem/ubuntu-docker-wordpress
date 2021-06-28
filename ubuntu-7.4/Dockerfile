@@ -98,7 +98,6 @@ COPY rootfs/ /
 # Run small fixes
 RUN set -x \
     && mkdir -p /var/www/uploads \
-    && mkdir -p /dev/cache \
     && mkdir -p /tmp/php-opcache \
     && ln -sf /usr/sbin/php-fpm7.4 /usr/sbin/php-fpm \
     && ln -sf /usr/bin/wp /usr/local/bin/wp
