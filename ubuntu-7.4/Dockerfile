@@ -69,7 +69,7 @@ RUN \
     ##
     # Install composer
     ##
-    curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
+    curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer --1 \
     && composer global require hirak/prestissimo \
 
     ##
@@ -115,6 +115,7 @@ ENV \
     # This also works correctly with flynn:
     # https://github.com/flynn/flynn/issues/3213#issuecomment-237307457
     PORT="8080" \
+    INTERNAL_PORT="8888" \
     # Use custom users for nginx and php-fpm
     WEB_USER="wordpress" \
     WEB_GROUP="web" \
