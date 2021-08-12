@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 
-## [1.7.0] - 2021-02-25
+## [1.7.0] - 2021-08-12
 ### Changed
 - Updated repo to use edge2 tag from devgeniem/ubuntu-docker-openresty-pagespeed
 - This might be a breaking change
