@@ -1,5 +1,5 @@
 FROM devgeniem/ubuntu-docker-openresty-pagespeed:edge2
-MAINTAINER Ville Pietarinen - Geniem Oy <ville.pietarinen-nospam@geniem.com>
+MAINTAINER Ville Pietarinen, Hannu Kumpula - Geniem Oy <ville.pietarinen-nospam@geniem.com> <hannu-nospam@geniem.com>
 
 ##
 # Only use these during installation
