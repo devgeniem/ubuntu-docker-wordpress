@@ -159,6 +159,8 @@ ENV \
     NGINX_ERROR_LOG="/dev/stderr" \
     # Have sane fastcgi timeout by default
     NGINX_ACCESS_LOG="/dev/stdout" \
+    # Intercepted and redirect error greater than 300 to nginx for processing
+    FASTCGI_INTERCEPT_ERRORS="on" \
     # PHP settings
     PHP_MEMORY_LIMIT="128M" \
     PHP_MAX_INPUT_VARS="1000" \
