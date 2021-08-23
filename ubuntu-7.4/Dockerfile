@@ -52,7 +52,9 @@ RUN \
         php7.4-curl \
         php7.4-ldap \
         php-pear \
+        libmagickwand-dev \
     && pecl install redis \
+    && pecl install imagick \
     # Force install only cron without extra mailing dependencies
     && cd /tmp \
     && apt-get download cron \
@@ -101,6 +103,13 @@ RUN set -x \
     && mkdir -p /tmp/php-opcache \
     && ln -sf /usr/sbin/php-fpm7.4 /usr/sbin/php-fpm \
     && ln -sf /usr/bin/wp /usr/local/bin/wp
+
+# Enable Imagemagick lib for php
+RUN set -x \
+    && echo extension=imagick.so > /etc/php/7.4/mods-available/imagick.ini \
+    && ln -s /etc/php/7.4/mods-available/imagick.ini /etc/php/7.4/fpm/conf.d/20-imagick.ini \
+    && ln -s /etc/php/7.4/mods-available/imagick.ini /etc/php/7.4/cli/conf.d/20-imagick.ini
+
 # This is for your project root
 ENV PROJECT_ROOT="/var/www/project"
 
