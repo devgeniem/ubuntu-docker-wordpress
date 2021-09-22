@@ -1,5 +1,5 @@
 FROM devgeniem/ubuntu-docker-openresty-pagespeed:edge
-MAINTAINER Ville Pietarinen - Geniem Oy <ville.pietarinen-nospam@geniem.com>
+MAINTAINER Ville Pietarinen, Hannu Kumpula - Geniem Oy <ville.pietarinen-nospam@geniem.com> <hannu-nospam@geniem.com>
 
 ##
 # Only use these during installation
@@ -52,6 +52,8 @@ RUN \
         php7.4-curl \
         php7.4-ldap \
         php-pear \
+        php7.4-imagick \
+ 
     && pecl install redis \
     # Force install only cron without extra mailing dependencies
     && cd /tmp \
@@ -101,6 +103,7 @@ RUN set -x \
     && mkdir -p /tmp/php-opcache \
     && ln -sf /usr/sbin/php-fpm7.4 /usr/sbin/php-fpm \
     && ln -sf /usr/bin/wp /usr/local/bin/wp
+
 # This is for your project root
 ENV PROJECT_ROOT="/var/www/project"
 
@@ -159,6 +162,8 @@ ENV \
     NGINX_ERROR_LOG="/dev/stderr" \
     # Have sane fastcgi timeout by default
     NGINX_ACCESS_LOG="/dev/stdout" \
+    # Intercepted and redirect error greater than 300 to nginx for processing
+    FASTCGI_INTERCEPT_ERRORS="on" \
     # PHP settings
     PHP_MEMORY_LIMIT="128M" \
     PHP_MAX_INPUT_VARS="1000" \
