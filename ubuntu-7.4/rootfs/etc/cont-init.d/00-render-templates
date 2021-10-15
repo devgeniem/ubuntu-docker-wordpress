@@ -29,8 +29,9 @@ echo "[cont-init.d] Substituting env into configuration files..."
 ##
 # Nginx doesn't support env variables in config files so we will have to do this in hacky way instead
 ##
-VARS='$PORT:$WEB_ROOT:$WEB_USER:$WEB_GROUP:$NGINX_ACCESS_LOG:$NGINX_ERROR_LOG:$NGINX_ERROR_LEVEL:$NGINX_INCLUDE_DIR:$NGINX_MAX_BODY_SIZE:$NGINX_BODY_BUFFER_SIZE:$NGINX_FASTCGI_TIMEOUT:$WP_ENV:$NGINX_CACHE_KEY'
+VARS='$PORT:$WEB_ROOT:$WEB_USER:$WEB_GROUP:$NGINX_ACCESS_LOG:$NGINX_ERROR_LOG:$NGINX_ERROR_LEVEL:$NGINX_INCLUDE_DIR:$NGINX_MAX_BODY_SIZE:$NGINX_BODY_BUFFER_SIZE:$NGINX_FASTCGI_TIMEOUT:$FASTCGI_INTERCEPT_ERRORS:$WP_ENV'
 render_env_tmpl "$VARS" /etc/nginx/nginx.conf
+render_env_tmpl "$VARS" /etc/nginx/fastcgi_settings.conf
 
 ##
 # Redis cache needs to know the redis instance and credentials
@@ -47,19 +48,20 @@ export REDIS_CACHE_TTL=${REDIS_CACHE_TTL-14400}
 VARS+='$AWS_S3_BUCKET_NAME:AWS_S3_REPLICA_BUCKET_NAME'
 
 # Add Redis variables
-VARS+='$REDIS_HOST:$REDIS_PORT:$REDIS_DATABASE:$REDIS_PASSWORD:$NGINX_REDIS_CACHE_TTL_MAX:$NGINX_REDIS_CACHE_TTL_DEFAULT:$NGINX_REDIS_CACHE_PREFIX'
+VARS+='$REDIS_HOST:$REDIS_PORT:$REDIS_DATABASE:$REDIS_PASSWORD'
 
 # Add image proxy variables
 VARS+='$GOOGLE_CLOUD_STORAGE_BUCKET_NAME'
 
 # Add cache variables
-VARS+='$NGINX_CACHE_USE_STALE:$NGINX_CACHE_CONTROL:$NGINX_CACHE_DIRECTORY'
+VARS+='$NGINX_FASTCGI_CACHE_VALID:$NGINX_FASTCGI_CACHE_VALID_2:$NGINX_FASTCGI_CACHE_VALID_3:$NGINX_FASTCGI_CACHE_VALID_4:$NGINX_FASTCGI_CACHE_VALID_5:$NGINX_FASTCGI_CACHE_MAX_SIZE:$NGINX_FASTCGI_CACHE_INACTIVE:$NGINX_FASTCGI_CACHE_BACKGROUND_UPDATE:$NGINX_CACHE_USE_STALE:$NGINX_FASTCGI_CACHE_CONTROL:$NGINX_FASTCGI_CACHE_DIRECTORY:$NGINX_FASTCGI_CACHE_USE_STALE'
 
-render_env_tmpl "$VARS" /etc/nginx/cache/redis_backend.conf
 
-render_env_tmpl "$VARS" /etc/nginx/cache/srcache.conf
+render_env_tmpl "$VARS" /etc/nginx/cache/helper_variables.conf
 render_env_tmpl "$VARS" /etc/nginx/cache/fastcgicache_settings.conf
 render_env_tmpl "$VARS" /etc/nginx/cache/fastcgicache_skip_rules.conf
+render_env_tmpl "$VARS" /etc/nginx/cache/fastcgicache_headers.conf
+
 ##
 # Render all user provided nginx templates
 ##
@@ -75,8 +77,7 @@ for conf_file in $(find $NGINX_INCLUDE_DIR -type f  -name '*.tmpl'); do
 done
 
 # Encrypt basic auth password if it set
-if [[ -z "${BASIC_AUTH_PASSWORD}" ]];
-then
+if [ -z "$BASIC_AUTH_PASSWORD" ]; then
     echo "Not encrypting BASIC_AUTH_PASSWORD..."
 else
     BASIC_AUTH_PASSWORD_HASH=$(openssl passwd -crypt $BASIC_AUTH_PASSWORD)
