@@ -7,6 +7,57 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - `php74-stable-shibboleth` branch with shibboleth nginx configs
 
+## [1.7.0] - 2021-08-12
+### Changed
+- Updated repo to use edge2 tag from devgeniem/ubuntu-docker-openresty-pagespeed. This might be a breaking change
+
+### Added
+- Installed Imagemagick for php
+- Skip cache reason to header
+
+### Fixed
+- Fixed blacklist and whitelist modes
+
+### Added
+- fastcgi_intercept_errors configurable from env FASTCGI_INTERCEPT_ERRORS, default on
+
+### Fixed
+- Updated map_hash_bucket_size value to 128 as previous value was out of scope.
+
+## [1.6.2] - 2021-02-25
+### Added
+
+-  added $cookie_nocache variable to cache bypass to enable cache bypass control via cookie
+
+## [1.6.1] - 2021-02-25
+### Fixed
+- Redis envs rendered again to make redis work
+
+## [1.6] - 2021-01-27
+### Removed
+- old php versions
+
+### Added
+- more envs for configuring  
+- php process manager configurable from envs
+- ignore cache key attributes
+- renamed envs for clarity
+- PHP_DISABLE_FUNCTIONS env
+
+## [1.5.2] - 2020-08-10
+
+### Added
+- socklog to log syslog and cronlog for better debugging
+- added wordpress_sec cookie to skip fullpage cache
+- more security headers
+- updated socklog to latest version
+
+### Fixed
+- headers where added in many places which made them not working correctly. Now headers are added in one place. For any headeres please use XXX_headers.conf files in 
+- php cli errorlog forwarded to /proc/1/fd/2 to make it work
+
+## [1.5.1] - 2020-xx-xx
+
 ### Fixed
 - Updated error page external libraries to new versions
 
