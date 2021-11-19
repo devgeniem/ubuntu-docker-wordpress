@@ -1,4 +1,4 @@
-FROM devgeniem/ubuntu-docker-openresty-pagespeed:beta2
+FROM devgeniem/ubuntu-docker-openresty-pagespeed:beta2-with-openssl-111k
 MAINTAINER Ville Pietarinen - Geniem Oy <ville.pietarinen-nospam@geniem.com>
 
 ##
@@ -13,8 +13,8 @@ ARG DEBIAN_FRONTEND=noninteractive
 ##
 RUN \
     apt-get update \
-&& apt-get -y --no-install-recommends install software-properties-common \
-    && add-apt-repository ppa:ondrej/php \
+    && apt-get -y --no-install-recommends install software-properties-common \
+    && add-apt-repository ppa:jczaplicki/xenial-php74-temp \
     && apt-get -y --no-install-recommends install \
         apt-utils \
         curl \
