@@ -49,5 +49,5 @@ fi
 echo "[php-fpm] using $PHP_SESSION_SAVE_PATH for php sessions..."
 
 echo "[php-fpm] started php-fpm"
-exec php-fpm -c /etc/php/7.4/fpm/php.ini --fpm-config /etc/php/7.4/fpm/php-fpm.conf --pid /var/run/php-fpm.pid
+exec php-fpm -c /etc/php/8.1/fpm/php.ini --fpm-config /etc/php/8.1/fpm/php-fpm.conf --pid /var/run/php-fpm.pid
 

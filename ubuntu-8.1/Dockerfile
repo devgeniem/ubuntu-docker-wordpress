@@ -29,30 +29,27 @@ RUN \
         build-essential \
     && apt-get update \
     && apt-get -y --no-install-recommends install \
-        php7.4-dev \
-        php7.4-cli \
-        php7.4-common \
-        php7.4-apcu \
-        # php7.4-apcu-bc \
-        php7.4-curl \
-        php7.4-json \
-        php7.4-opcache \
-        php7.4-readline \
-        php7.4-xml \
-        php7.4-zip \
-        php7.4-fpm \
-        # php7.4-redis \
-        php7.4-mongodb \
-        php7.4-mysqli \
-        php7.4-intl \
-        php7.4-gd \
-        php7.4-mbstring \
-        php7.4-soap \
-        php7.4-bcmath \
-        php7.4-curl \
-        php7.4-ldap \
+        php8.1-dev \
+        php8.1-cli \
+        php8.1-common \
+        php8.1-apcu \
+        php8.1-curl \
+        php8.1-opcache \
+        php8.1-readline \
+        php8.1-xml \
+        php8.1-zip \
+        php8.1-fpm \
+        php8.1-mongodb \
+        php8.1-mysqli \
+        php8.1-intl \
+        php8.1-gd \
+        php8.1-mbstring \
+        php8.1-soap \
+        php8.1-bcmath \
+        php8.1-curl \
+        php8.1-ldap \
         php-pear \
-        php7.4-imagick \
+        php8.1-imagick \
  
     && pecl install redis \
     # Force install only cron without extra mailing dependencies
@@ -101,7 +98,7 @@ COPY rootfs/ /
 RUN set -x \
     && mkdir -p /var/www/uploads \
     && mkdir -p /tmp/php-opcache \
-    && ln -sf /usr/sbin/php-fpm7.4 /usr/sbin/php-fpm \
+    && ln -sf /usr/sbin/php-fpm8.1 /usr/sbin/php-fpm \
     && ln -sf /usr/bin/wp /usr/local/bin/wp
 
 # This is for your project root
