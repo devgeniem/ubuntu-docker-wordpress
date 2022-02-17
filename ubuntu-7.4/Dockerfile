@@ -129,7 +129,7 @@ ENV \
     # This variable uses seconds by default
     # Time units supported are "s"(seconds), "ms"(milliseconds), "y"(years), "M"(months), "w"(weeks), "d"(days), "h"(hours), and "m"(minutes).
     # Also http response codes that are cached can be set
-    NGINX_FASTCGI_CACHE_VALID_HEADER="200 301 302 404 1m" \
+    NGINX_FASTCGI_CACHE_VALID="200 404 1m" \
     # Default fastcgi cache directory
     NGINX_FASTCGI_CACHE_DIRECTORY="/tmp/nginx/fullpage" \
     # Default fastcgi cache size
