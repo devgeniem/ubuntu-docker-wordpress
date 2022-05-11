@@ -1,4 +1,4 @@
-FROM devgeniem/ubuntu-docker-openresty-pagespeed:edge
+FROM devgeniem/ubuntu-docker-openresty-pagespeed:edge-arm
 MAINTAINER Ville Pietarinen, Hannu Kumpula - Geniem Oy <ville.pietarinen-nospam@geniem.com> <hannu-nospam@geniem.com>
 
 ##
@@ -13,8 +13,12 @@ ARG DEBIAN_FRONTEND=noninteractive
 ##
 RUN \
     apt-get update \
-&& apt-get -y --no-install-recommends install software-properties-common \
+    && apt-get -y install -y apt-transport-https \
+    && apt-get -y install software-properties-common \
     && add-apt-repository ppa:ondrej/php \
+    && add-apt-repository ppa:webupd8team/y-ppa-manager \
+    && apt-get update \
+    && apt-get -y install y-ppa-manager \
     && apt-get -y --no-install-recommends install \
         apt-utils \
         curl \
@@ -193,14 +197,17 @@ ENV \
 # Setup $TZ. Remember to run this again in your own build
     # Make sure that all files here have execute permissions
 RUN dpkg-reconfigure tzdata && \
-    chmod +x /etc/cont-init.d/*
+    chmod +x /etc/cont-init.d/* && \
+    chmod -R +x /etc/services.d/*
 
-# Install socklog-overlay
-ADD https://github.com/just-containers/socklog-overlay/releases/download/v3.1.0-2/socklog-overlay-amd64.tar.gz /tmp/
-RUN tar xzf /tmp/socklog-overlay-amd64.tar.gz -C /
-RUN rm /tmp/socklog-overlay-amd64.tar.gz
-RUN echo '+\n1' > /etc/socklog.rules/forward-stdout
-RUN echo 'LANG="en_US.UTF-8"' > /etc/default/locale
+# Install socklog-overlay (DISABLED FOR ARM FOR NOW)
+#ADD https://github.com/just-containers/socklog-overlay/releases/download/v3.1.0-2/socklog-overlay-amd64.tar.gz /tmp/
+#RUN tar xzf /tmp/socklog-overlay-amd64.tar.gz -C /
+#RUN rm /tmp/socklog-overlay-amd64.tar.gz
+#RUN echo '+\n1' > /etc/socklog.rules/forward-stdout
+#RUN echo 'LANG="en_US.UTF-8"' > /etc/default/locale
+
+
 
 # Set default path to project folder for easier running commands in project
 WORKDIR ${PROJECT_ROOT}
