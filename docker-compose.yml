@@ -4,7 +4,7 @@ version: '3.4'
 
 services:
   web:
-    build: ./ubuntu-8.1/
+    build: ./ubuntu-8.2/
     command: /init
     ports:
       - 80
@@ -15,5 +15,5 @@ services:
       WP_GID: 101
 
       # For testing with gdev
-      VIRTUAL_HOST: php81.test
+      VIRTUAL_HOST: php82.test
       PORT: 80
