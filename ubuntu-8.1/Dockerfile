@@ -1,4 +1,4 @@
-FROM devgeniem/ubuntu-docker-openresty-pagespeed:edge
+FROM devgeniem/ubuntu-docker-openresty-pagespeed:edge2
 MAINTAINER Ville Pietarinen, Hannu Kumpula - Geniem Oy <ville.pietarinen-nospam@geniem.com> <hannu-nospam@geniem.com>
 
 ##
@@ -111,6 +111,7 @@ ENV \
     MYSQL_PORT="3306" \
     # Use default web port in nginx but allow it to be overridden
     PORT="8080" \
+    INTERNAL_PORT="8888" \
     # Use custom users for nginx and php-fpm
     WEB_USER="wordpress" \
     WEB_GROUP="web" \
