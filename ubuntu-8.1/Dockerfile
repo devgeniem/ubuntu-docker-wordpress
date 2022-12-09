@@ -1,4 +1,4 @@
-FROM devgeniem/ubuntu-docker-openresty-pagespeed:edge
+FROM devgeniem/ubuntu-docker-openresty-pagespeed:edge-arm
 MAINTAINER Ville Pietarinen, Hannu Kumpula - Geniem Oy <ville.pietarinen-nospam@geniem.com> <hannu-nospam@geniem.com>
 
 ##
@@ -15,6 +15,7 @@ RUN \
     apt-get update \
 && apt-get -y --no-install-recommends install software-properties-common \
     && add-apt-repository ppa:ondrej/php \
+    && add-apt-repository ppa:webupd8team/y-ppa-manager \
     && apt-get -y --no-install-recommends install \
         apt-utils \
         curl \
@@ -190,7 +191,8 @@ ENV \
 # Setup $TZ. Remember to run this again in your own build
     # Make sure that all files here have execute permissions
 RUN dpkg-reconfigure tzdata && \
-    chmod +x /etc/cont-init.d/*
+    chmod +x /etc/cont-init.d/* && \
+    chmod -R +x /etc/services.d/*
 
 # Install socklog-overlay (DISABLED FOR ARM FOR NOW)
 # ADD https://github.com/just-containers/socklog-overlay/releases/download/v3.1.0-2/socklog-overlay-amd64.tar.gz /tmp/
