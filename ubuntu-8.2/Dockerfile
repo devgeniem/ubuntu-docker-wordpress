@@ -51,7 +51,7 @@ RUN \
         php-pear \
         #php8.2-imagick \
  
-    && pecl install redis \
+    && pecl install apcu redis mongodb \
     # Force install only cron without extra mailing dependencies
     && cd /tmp \
     && apt-get download cron \
