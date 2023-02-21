@@ -1,5 +1,5 @@
-FROM devgeniem/ubuntu-docker-openresty-pagespeed:edge
-MAINTAINER Ville Pietarinen, Hannu Kumpula - Geniem Oy <ville.pietarinen-nospam@geniem.com> <hannu-nospam@geniem.com>
+FROM devgeniem/ubuntu-docker-openresty-pagespeed:shibboleth
+MAINTAINER Ville Pietarinen - Geniem Oy <ville.pietarinen-nospam@geniem.com>
 
 ##
 # Only use these during installation
@@ -58,8 +58,8 @@ RUN \
     && dpkg --force-all -i cron*.deb \
     && mkdir -p /var/spool/cron/crontabs \
     # Cleanup
-    && apt-get clean \
-    && apt-get autoremove \
+    && apt-get -y clean \
+    && apt-get -y autoremove \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/* /var/log/apt/* /var/log/*.log
 
 
