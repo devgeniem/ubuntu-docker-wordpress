@@ -6,7 +6,7 @@ chown $WEB_USER:$WEB_GROUP $UPLOADS_ROOT
 
 # Create dir for nginx tmp files
 mkdir -p /tmp/nginx/body
-chown -R $WEB_USER:$WEB_GROUP /tmp/nginx
+chown $WEB_USER:$WEB_GROUP /tmp/nginx
 
 # Create log directories if they don't exist already
 mkdir -p /var/log/{nginx,php,mail}

@@ -50,7 +50,6 @@ RUN \
         php8.1-ldap \
         php-pear \
         php8.1-imagick \
- 
     && pecl install redis \
     # Force install only cron without extra mailing dependencies
     && cd /tmp \
@@ -69,7 +68,6 @@ RUN \
     # Install composer
     ##
     curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
-
     ##
     # Install wp-cli
     # source: http://wp-cli.org/
@@ -78,7 +76,6 @@ RUN \
     && chmod +rx /usr/local/bin/wp-cli \
     # Symlink it to /usr/bin as well so that cron can find this script with limited PATH
     && ln -s /usr/local/bin/wp-cli /usr/bin/wp-cli \
-
     ##
     # Install cronlock for running cron correctly with multi container setups
     # https://github.com/kvz/cronlock
@@ -112,6 +109,8 @@ ENV \
     # Use default web port in nginx but allow it to be overridden
     PORT="8080" \
     INTERNAL_PORT="8888" \
+    # Main server listen interface, set to 0.0.0.0 along with NGINX_INTERNAL_PROXY_INCLUDE="" & INTERNAL_PORT="$PORT" to disable internal proxy
+    INTERNAL_HOST="127.0.0.1" \
     # Use custom users for nginx and php-fpm
     WEB_USER="wordpress" \
     WEB_GROUP="web" \
@@ -150,6 +149,12 @@ ENV \
     NGINX_INCLUDE_DIR="/var/www/project/nginx" \
     # Allow bigger file uploads
     NGINX_MAX_BODY_SIZE="20M" \
+    # Nginx rlimit config include, set to empty to disable
+    NGINX_WORKER_RLIMIT_INCLUDE="include worker_rlimit.conf;" \
+    # Nginx proxy for main server include, set to empty to disable, along with INTERNAL_HOST="0.0.0.0" & INTERNAL_PORT="$PORT"
+    NGINX_INTERNAL_PROXY_INCLUDE="include internal_proxy.conf;" \
+    # Nginx events { worker_connections }
+    NGINX_WORKER_CONNECTIONS="8000" \
     # Allow storing bigger body in memory
     NGINX_BODY_BUFFER_SIZE="10M" \
     # Have sane fastcgi timeout by default
@@ -160,18 +165,23 @@ ENV \
     NGINX_ERROR_LOG="/dev/stderr" \
     # Have sane fastcgi timeout by default
     NGINX_ACCESS_LOG="/dev/stdout" \
+    # Set nginx fastcgi buffers
+    NGINX_FASTCGI_BUFFERS="16 16k" \
+    NGINX_FASTCGI_BUFFER_SIZE="16k" \
+    NGINX_FASTCGI_BUSY_BUFFERS_SIZE="16k" \
     # Intercepted and redirect error greater than 300 to nginx for processing
     FASTCGI_INTERCEPT_ERRORS="on" \
     # PHP settings
     PHP_MEMORY_LIMIT="128M" \
     PHP_MAX_INPUT_VARS="1000" \
-    PHP_ERROR_LOG="/proc/self/fd/1" \
+    PHP_ERROR_LOG="/dev/stderr" \
     PHP_ERROR_LOG_LEVEL="warning" \
     PHP_ERROR_LOG_MAX_LEN="8192" \
     PHP_SESSION_REDIS_DB="0" \
     PHP_SESSION_HANDLER="files" \
     PHP_PM_MODE="dynamic" \
     PHP_PM_MAX_CHILDREN="25" \
+    PHP_PM_MAX_SPAWN_RATE="25" \
     PHP_PM_START_SERVERS="8" \
     PHP_PM_MIN_SPARE_SERVERS="4" \
     PHP_PM_MAX_SPARE_SERVERS="8" \
@@ -181,13 +191,24 @@ ENV \
     PHP_OPCACHE_MAX_FILES="8000" \
     # Amount of memory in MB to allocate for opcache
     PHP_OPCACHE_MAX_MEMORY="128" \
+    PHP_PM_PROCESS_IDLE_TIMEOUT="10s" \
+    PHP_PM_MAX_REQUESTS="500" \
+    # set to "unlimited" for coredumps along with settings process.dumpable = yes in php-fpm.d/coredumps.conf
+    PHP_RLIMIT_CORE="0" \
+    PHP_PING_PATH="/ping" \
+    PHP_EMERGENCY_RESTART_THRESHOLD="2" \
+    PHP_EMERGENCY_RESTART_INTERVAL="20s" \
+    PHP_PROCESS_CONTROL_TIMEOUT="10s" \
+    PHP_OPCACHE_INTERNED_STRINGS_BUFFER="16" \
     # Use host machine as default SMTP_HOST
     SMTP_HOST="" \
     # This folder is used to mount files into host machine
     # You should use this path for your uploads since everything else should be ephemeral
     UPLOADS_ROOT="/var/www/uploads" \
     # This can be overidden by you, it's just default for us
-    TZ="Europe/Helsinki"
+    TZ="Europe/Helsinki" \
+    # Default endpoint for docker healthcheck, a better option can be wp-json if not restricted
+    DOCKER_HEALTHCHECK_PATH="/ping"
 # Setup $TZ. Remember to run this again in your own build
     # Make sure that all files here have execute permissions
 RUN dpkg-reconfigure tzdata && \
@@ -204,3 +225,4 @@ RUN echo 'LANG="en_US.UTF-8"' > /etc/default/locale
 WORKDIR ${PROJECT_ROOT}
 EXPOSE ${PORT}
 ENTRYPOINT ["/init"]
+HEALTHCHECK --interval=10s --retries=3 --start-period=10s --timeout=3s CMD /healthcheck

@@ -1,0 +1,2 @@
+#!/bin/sh
+curl --resolve $SERVER_NAME:$PORT:127.0.0.1 --head -f http://$SERVER_NAME:$PORT$DOCKER_HEALTHCHECK_PATH || exit 1
