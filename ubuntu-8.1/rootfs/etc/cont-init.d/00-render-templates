@@ -24,18 +24,24 @@ function render_env_tmpl() {
     mv $tmp_file $filename
 }
 
+echo "[cont-init.d] Copying nginx files to /tmp/nginx-conf ..."
+cp -r /etc/nginx /tmp/nginx-conf
+
+echo "[cont-init.d] Copying project nginx files to /tmp/nginx-conf-project ..."
+cp -r /var/www/project/nginx /tmp/nginx-conf-project
+
 echo "[cont-init.d] Substituting env into configuration files..."
 
 ##
 # Nginx doesn't support env variables in config files so we will have to do this in hacky way instead
 ##
 VARS='$PORT:$INTERNAL_PORT:$INTERNAL_HOST:$WEB_ROOT:$WEB_USER:$WEB_GROUP:$NGINX_ACCESS_LOG:$NGINX_ERROR_LOG:$NGINX_ERROR_LEVEL:$NGINX_WORKER_RLIMIT_INCLUDE:$NGINX_INTERNAL_PROXY_INCLUDE:$NGINX_WORKER_CONNECTIONS:$NGINX_FASTCGI_BUFFERS:$NGINX_FASTCGI_BUFFER_SIZE:$NGINX_FASTCGI_BUSY_BUFFERS_SIZE:$NGINX_INCLUDE_DIR:$NGINX_MAX_BODY_SIZE:$NGINX_BODY_BUFFER_SIZE:$NGINX_FASTCGI_TIMEOUT:$FASTCGI_INTERCEPT_ERRORS:$WP_ENV:$PHP_PING_PATH'
-render_env_tmpl "$VARS" /etc/nginx/nginx.conf
-render_env_tmpl "$VARS" /etc/nginx/fastcgi_settings.conf
-render_env_tmpl "$VARS" /etc/nginx/fastcgi_buffers.conf
-render_env_tmpl "$VARS" /etc/nginx/internal_proxy.conf
-render_env_tmpl "$VARS" /etc/nginx/server_listen_directive.conf
-render_env_tmpl "$VARS" /etc/nginx/php_healthcheck.conf
+render_env_tmpl "$VARS" /tmp/nginx-conf/nginx.conf
+render_env_tmpl "$VARS" /tmp/nginx-conf/fastcgi_settings.conf
+render_env_tmpl "$VARS" /tmp/nginx-conf/fastcgi_buffers.conf
+render_env_tmpl "$VARS" /tmp/nginx-conf/internal_proxy.conf
+render_env_tmpl "$VARS" /tmp/nginx-conf/server_listen_directive.conf
+render_env_tmpl "$VARS" /tmp/nginx-conf/php_healthcheck.conf
 
 ##
 # Redis cache needs to know the redis instance and credentials
@@ -61,10 +67,10 @@ VARS+='$GOOGLE_CLOUD_STORAGE_BUCKET_NAME'
 VARS+='$NGINX_FASTCGI_CACHE_VALID:$NGINX_FASTCGI_CACHE_VALID_2:$NGINX_FASTCGI_CACHE_VALID_3:$NGINX_FASTCGI_CACHE_VALID_4:$NGINX_FASTCGI_CACHE_VALID_5:$NGINX_FASTCGI_CACHE_MAX_SIZE:$NGINX_FASTCGI_CACHE_INACTIVE:$NGINX_FASTCGI_CACHE_BACKGROUND_UPDATE:$NGINX_CACHE_USE_STALE:$NGINX_FASTCGI_CACHE_CONTROL:$NGINX_FASTCGI_CACHE_DIRECTORY:$NGINX_FASTCGI_CACHE_USE_STALE'
 
 
-render_env_tmpl "$VARS" /etc/nginx/cache/helper_variables.conf
-render_env_tmpl "$VARS" /etc/nginx/cache/fastcgicache_settings.conf
-render_env_tmpl "$VARS" /etc/nginx/cache/fastcgicache_skip_rules.conf
-render_env_tmpl "$VARS" /etc/nginx/cache/fastcgicache_headers.conf
+render_env_tmpl "$VARS" /tmp/nginx-conf/cache/helper_variables.conf
+render_env_tmpl "$VARS" /tmp/nginx-conf/cache/fastcgicache_settings.conf
+render_env_tmpl "$VARS" /tmp/nginx-conf/cache/fastcgicache_skip_rules.conf
+render_env_tmpl "$VARS" /tmp/nginx-conf/cache/fastcgicache_headers.conf
 
 ##
 # Render all user provided nginx templates
@@ -86,5 +92,5 @@ if [ -z "$BASIC_AUTH_PASSWORD" ]; then
 else
     BASIC_AUTH_PASSWORD_HASH=$(openssl passwd -crypt $BASIC_AUTH_PASSWORD)
     echo "Encrypting BASIC_AUTH_PASSWORD... ${BASIC_AUTH_PASSWORD} -> ${BASIC_AUTH_PASSWORD_HASH}"
-    echo "${BASIC_AUTH_USER}:${BASIC_AUTH_PASSWORD_HASH}" > /var/www/project/nginx/environments/${WP_ENV}/server/.htpasswd
+    echo "${BASIC_AUTH_USER}:${BASIC_AUTH_PASSWORD_HASH}" > ${NGINX_INCLUDE_DIR}/environments/${WP_ENV}/server/.htpasswd
 fi

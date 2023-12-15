@@ -146,7 +146,7 @@ ENV \
     # This is used automatically by wp-cli
     WP_CORE="${PROJECT_ROOT}/web/wp" \
     # Nginx include files
-    NGINX_INCLUDE_DIR="/var/www/project/nginx" \
+    NGINX_INCLUDE_DIR="/tmp/nginx-conf-project" \
     # Allow bigger file uploads
     NGINX_MAX_BODY_SIZE="20M" \
     # Nginx rlimit config include, set to empty to disable
