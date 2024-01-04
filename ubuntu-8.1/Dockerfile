@@ -153,6 +153,12 @@ ENV \
     NGINX_WORKER_RLIMIT_INCLUDE="include worker_rlimit.conf;" \
     # Nginx proxy for main server include, set to empty to disable, along with INTERNAL_HOST="0.0.0.0" & INTERNAL_PORT="$PORT"
     NGINX_INTERNAL_PROXY_INCLUDE="include internal_proxy.conf;" \
+    # Empty these envs to disable fastcgicache fully
+    NGINX_FASTCGICACHE_DEFAULT_KEY="fastcgi_cache_key \$scheme\$request_method\$host\$uri\$cache_args\$custom_parameters\$state;" \
+    NGINX_FASTCGICACHE_PURGE_LOCATION_INCLUDE="include cache/purge_location.conf;" \
+    NGINX_FASTCGICACHE_SETTINGS_INCLUDE="include cache/fastcgicache_settings.conf;" \
+    NGINX_FASTCGICACHE_HEADERS_INCLUDE="include cache/fastcgicache_headers.conf;" \
+    NGINX_FASTCGICACHE_INCLUDE="include cache/fastcgicache.conf;" \
     # Nginx events { worker_connections }
     NGINX_WORKER_CONNECTIONS="8000" \
     # Allow storing bigger body in memory
