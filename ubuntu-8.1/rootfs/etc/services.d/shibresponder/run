@@ -1,0 +1,4 @@
+#!/usr/bin/with-contenv sh
+
+echo "[s6-services.d] started shibresponder"
+exec spawn-fcgi -a 127.0.0.1 -p 9003 -u _shibd -n -- /usr/lib/x86_64-linux-gnu/shibboleth/shibresponder
