@@ -1,5 +1,5 @@
-FROM devgeniem/ubuntu-docker-openresty-pagespeed:edge2
-MAINTAINER Ville Pietarinen, Hannu Kumpula - Geniem Oy <ville.pietarinen-nospam@geniem.com> <hannu-nospam@geniem.com>
+FROM devgeniem/ubuntu-docker-openresty-pagespeed:edge2-noble
+LABEL maintainer="Jussi Alanen, Arttu Mäkipörhölä - Hion Digital Oy <jussi.alanen-nospam@hiondigital.com> <arttu.makiporhola-nospam@hiondigital.com>"
 
 ##
 # Only use these during installation
@@ -13,54 +13,62 @@ ARG DEBIAN_FRONTEND=noninteractive
 ##
 RUN \
     apt-get update \
-&& apt-get -y --no-install-recommends install software-properties-common \
+    && apt-get -y --no-install-recommends install software-properties-common \
     && add-apt-repository ppa:ondrej/php \
     && apt-get -y --no-install-recommends install \
-        apt-utils \
-        curl \
-        nano \
-        ca-certificates \
-        git \
-        mysql-client \
-        msmtp \
-        postfix \
-        netcat \
-        less \
-        build-essential \
+    apt-utils \
+    curl \
+    nano \
+    ca-certificates \
+    git \
+    mysql-client \
+    msmtp \
+    postfix \
+    netcat-traditional \
+    netcat-openbsd \
+    less \
+    build-essential \
     && apt-get update \
     && apt-get -y --no-install-recommends install \
-        php8.1-dev \
-        php8.1-cli \
-        php8.1-common \
-        php8.1-apcu \
-        php8.1-curl \
-        php8.1-opcache \
-        php8.1-readline \
-        php8.1-xml \
-        php8.1-zip \
-        php8.1-fpm \
-        php8.1-mongodb \
-        php8.1-mysqli \
-        php8.1-intl \
-        php8.1-gd \
-        php8.1-mbstring \
-        php8.1-soap \
-        php8.1-bcmath \
-        php8.1-curl \
-        php8.1-ldap \
-        php-pear \
-        php8.1-imagick \
+    php-dev \
+    php-cli \
+    php-common \
+    php-apcu \
+    php-curl \
+    php8.3-opcache \
+    php-readline \
+    php-xml \
+    php-zip \
+    php-fpm \
+    php-mongodb \
+    php8.3-mysqli \
+    php-intl \
+    php-gd \
+    php-mbstring \
+    php-soap \
+    php-bcmath \
+    php-curl \
+    php-ldap \
+    php-pear \
+    php-imagick \
     && pecl install redis \
     # Force install only cron without extra mailing dependencies
     && cd /tmp \
-    && apt-get download cron \
-    && dpkg --force-all -i cron*.deb \
+    && apt-get -y install cron \
     && mkdir -p /var/spool/cron/crontabs \
     # Cleanup
     && apt-get clean \
     && apt-get autoremove \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/* /var/log/apt/* /var/log/*.log
 
+
+RUN \
+    apt-get update \
+    # Python 3 packages override
+    && apt-get -y install python3-pip \
+    && pip install --upgrade --break-system-packages cryptography \
+    # Remove the packages from distro site
+    && apt-get -y purge python3-cryptography python3-pip
 
 # Install helpers
 RUN \
@@ -95,10 +103,10 @@ COPY rootfs/ /
 RUN set -x \
     && mkdir -p /var/www/uploads \
     && mkdir -p /tmp/php-opcache \
-    && ln -sf /usr/sbin/php-fpm8.1 /usr/sbin/php-fpm \
+    && ln -sf /usr/sbin/php-fpm8.3 /usr/sbin/php-fpm \
     && ln -sf /usr/bin/wp /usr/local/bin/wp
 
-# This is for your project root
+# This is for your project rootz
 ENV PROJECT_ROOT="/var/www/project"
 
 ENV \
@@ -216,7 +224,7 @@ ENV \
     # Default endpoint for docker healthcheck, a better option can be wp-json if not restricted
     DOCKER_HEALTHCHECK_PATH="/ping"
 # Setup $TZ. Remember to run this again in your own build
-    # Make sure that all files here have execute permissions
+# Make sure that all files here have execute permissions
 RUN dpkg-reconfigure tzdata && \
     chmod +x /etc/cont-init.d/*
 
