@@ -65,6 +65,19 @@ RUN \
     && apt-get autoremove \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/* /var/log/apt/* /var/log/*.log
 
+# Install python3, update the specific packages e.g. like cryptography (vulnerability/CVES fixes)
+RUN \
+    apt-get update \
+    # Python 3 packages override
+    && apt-get --no-install-recommends -y install python3-pip \
+    && pip install --upgrade cryptography \
+    && apt purge --autoremove python3-jwt -y \
+    && pip install PyJWT==2.4.0 \
+    && pip install setuptools>=65.5.5  \
+    && rm -rf /usr/lib/python3/dist-packages/wheel \
+    && rm -rf /usr/lib/python3/dist-packages/wheel-0.37.1.egg-info \
+    # Remove the packages from distro site
+    && apt-get -y purge --autoremove python3-cryptography python3-pip python3-setuptools
 
 # Install helpers
 RUN \
