@@ -1,5 +1,5 @@
-FROM devgeniem/ubuntu-docker-openresty-pagespeed:edge2
-MAINTAINER Ville Pietarinen, Hannu Kumpula - Geniem Oy <ville.pietarinen-nospam@geniem.com> <hannu-nospam@geniem.com>
+FROM devgeniem/ubuntu-docker-openresty-pagespeed_edge2:jammy
+LABEL maintainer="Jussi Alanen - Hion Digital Oy <jussi.alanen@hiondigital.com>"
 
 ##
 # Only use these during installation
@@ -8,48 +8,52 @@ ARG LANG=C.UTF-8
 ARG DEBIAN_FRONTEND=noninteractive
 
 ##
-# Install php7 packages from dotdeb.org
+# Install php8 packages from dotdeb.org
 # - Dotdeb is an extra repository providing up-to-date packages for your Debian servers
 ##
 RUN \
     apt-get update \
-&& apt-get -y --no-install-recommends install software-properties-common \
+    && apt-get -y --no-install-recommends install software-properties-common gpg-agent \
+
+    # Re-install php
+    && apt remove -y php* \
     && add-apt-repository ppa:ondrej/php \
+
     && apt-get -y --no-install-recommends install \
-        apt-utils \
-        curl \
-        nano \
-        ca-certificates \
-        git \
-        mysql-client \
-        msmtp \
-        postfix \
-        netcat \
-        less \
-        build-essential \
+    apt-utils \
+    curl \
+    nano \
+    ca-certificates \
+    git \
+    mysql-client \
+    msmtp \
+    postfix \
+    netcat \
+    less \
+    build-essential \
     && apt-get update \
     && apt-get -y --no-install-recommends install \
-        php8.1-dev \
-        php8.1-cli \
-        php8.1-common \
-        php8.1-apcu \
-        php8.1-curl \
-        php8.1-opcache \
-        php8.1-readline \
-        php8.1-xml \
-        php8.1-zip \
-        php8.1-fpm \
-        php8.1-mongodb \
-        php8.1-mysqli \
-        php8.1-intl \
-        php8.1-gd \
-        php8.1-mbstring \
-        php8.1-soap \
-        php8.1-bcmath \
-        php8.1-curl \
-        php8.1-ldap \
-        php-pear \
-        php8.1-imagick \
+    php8.1-dev \
+    php8.1-cli \
+    php8.1-common \
+    php8.1-apcu \
+    php8.1-curl \
+    php8.1-opcache \
+    php8.1-readline \
+    php8.1-xml \
+    php8.1-zip \
+    php8.1-fpm \
+    php8.1-mongodb \
+    php8.1-mysqli \
+    php8.1-intl \
+    php8.1-gd \
+    php8.1-mbstring \
+    php8.1-soap \
+    php8.1-bcmath \
+    php8.1-curl \
+    php8.1-ldap \
+    php-pear \
+    php8.1-imagick \
     && pecl install redis \
     # Force install only cron without extra mailing dependencies
     && cd /tmp \
@@ -216,7 +220,7 @@ ENV \
     # Default endpoint for docker healthcheck, a better option can be wp-json if not restricted
     DOCKER_HEALTHCHECK_PATH="/ping"
 # Setup $TZ. Remember to run this again in your own build
-    # Make sure that all files here have execute permissions
+# Make sure that all files here have execute permissions
 RUN dpkg-reconfigure tzdata && \
     chmod +x /etc/cont-init.d/*
 
