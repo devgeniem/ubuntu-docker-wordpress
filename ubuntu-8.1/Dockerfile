@@ -1,4 +1,4 @@
-FROM devgeniem/ubuntu-docker-openresty-pagespeed_edge2:jammy
+FROM devgeniem/ubuntu-docker-openresty-pagespeed:edge2-jammy
 LABEL maintainer="Jussi Alanen - Hion Digital Oy <jussi.alanen@hiondigital.com>"
 
 ##
