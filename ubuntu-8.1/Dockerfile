@@ -1,5 +1,5 @@
-FROM devgeniem/ubuntu-docker-openresty-pagespeed:edge2-noble
-LABEL maintainer="Jussi Alanen, Arttu Mäkipörhölä - Hion Digital Oy <jussi.alanen-nospam@hiondigital.com> <arttu.makiporhola-nospam@hiondigital.com>"
+FROM devgeniem/ubuntu-docker-openresty-pagespeed-edge2:noble
+LABEL maintainer="Jussi Alanen - Hion Digital Oy <jussi.alanen@hiondigital.com>"
 
 ##
 # Only use these during installation
@@ -8,17 +8,18 @@ ARG LANG=C.UTF-8
 ARG DEBIAN_FRONTEND=noninteractive
 
 ##
-# Install php7 packages from dotdeb.org
+# Install php8 packages from dotdeb.org
 # - Dotdeb is an extra repository providing up-to-date packages for your Debian servers
 ##
 RUN \
     apt-get update \
-    && apt-get -y --no-install-recommends install software-properties-common \
+    && apt-get -y --no-install-recommends install software-properties-common gpg-agent \
     && add-apt-repository ppa:ondrej/php \
     && apt-get -y --no-install-recommends install \
     apt-utils \
     curl \
     nano \
+    make \
     ca-certificates \
     git \
     mysql-client \
@@ -30,27 +31,27 @@ RUN \
     build-essential \
     && apt-get update \
     && apt-get -y --no-install-recommends install \
-    php-dev \
-    php-cli \
-    php-common \
-    php-apcu \
-    php-curl \
-    php8.3-opcache \
-    php-readline \
-    php-xml \
-    php-zip \
-    php-fpm \
-    php-mongodb \
-    php8.3-mysqli \
-    php-intl \
-    php-gd \
-    php-mbstring \
-    php-soap \
-    php-bcmath \
-    php-curl \
-    php-ldap \
+    php8.1-dev \
+    php8.1-cli \
+    php8.1-common \
+    php8.1-apcu \
+    php8.1-curl \
+    php8.1-opcache \
+    php8.1-readline \
+    php8.1-xml \
+    php8.1-zip \
+    php8.1-fpm \
+    php8.1-mongodb \
+    php8.1-mysqli \
+    php8.1-intl \
+    php8.1-gd \
+    php8.1-mbstring \
+    php8.1-soap \
+    php8.1-bcmath \
+    php8.1-curl \
+    php8.1-ldap \
     php-pear \
-    php-imagick \
+    php8.1-imagick \
     && pecl install redis \
     # Force install only cron without extra mailing dependencies
     && cd /tmp \
@@ -61,14 +62,19 @@ RUN \
     && apt-get autoremove \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/* /var/log/apt/* /var/log/*.log
 
-
+# Install python3, update the specific packages e.g. like cryptography (vulnerability/CVES fixes)
 RUN \
     apt-get update \
     # Python 3 packages override
-    && apt-get -y install python3-pip \
-    && pip install --upgrade --break-system-packages cryptography \
+    && apt-get --no-install-recommends -y install python3-pip \
+    && pip install --upgrade cryptography \
+    && apt purge --autoremove python3-jwt -y \
+    && pip install PyJWT==2.4.0 \
+    && pip install setuptools>=65.5.5  \
+    && rm -rf /usr/lib/python3/dist-packages/wheel \
+    && rm -rf /usr/lib/python3/dist-packages/wheel-0.37.1.egg-info \
     # Remove the packages from distro site
-    && apt-get -y purge python3-cryptography python3-pip
+    && apt-get -y purge --autoremove python3-cryptography python3-pip python3-setuptools
 
 # Install helpers
 RUN \
@@ -103,10 +109,10 @@ COPY rootfs/ /
 RUN set -x \
     && mkdir -p /var/www/uploads \
     && mkdir -p /tmp/php-opcache \
-    && ln -sf /usr/sbin/php-fpm8.3 /usr/sbin/php-fpm \
+    && ln -sf /usr/sbin/php-fpm8.1 /usr/sbin/php-fpm \
     && ln -sf /usr/bin/wp /usr/local/bin/wp
 
-# This is for your project rootz
+# This is for your project root
 ENV PROJECT_ROOT="/var/www/project"
 
 ENV \
