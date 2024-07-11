@@ -240,8 +240,14 @@ RUN rm /tmp/socklog-overlay-amd64.tar.gz
 RUN echo '+\n1' > /etc/socklog.rules/forward-stdout
 RUN echo 'LANG="en_US.UTF-8"' > /etc/default/locale
 
+COPY entrypoint.sh /usr/local/bin
+RUN chmod +x /usr/local/bin/*
+RUN chmod +x /etc/init.d/*
+
 # Set default path to project folder for easier running commands in project
 WORKDIR ${PROJECT_ROOT}
 EXPOSE ${PORT}
-ENTRYPOINT ["/init"]
+
+ENTRYPOINT ["/init", "entrypoint.sh"]
+
 HEALTHCHECK --interval=10s --retries=3 --start-period=10s --timeout=3s CMD /healthcheck
