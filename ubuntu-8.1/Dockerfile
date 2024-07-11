@@ -66,15 +66,10 @@ RUN \
 RUN \
     apt-get update \
     # Python 3 packages override
-    && apt-get --no-install-recommends -y install python3-pip \
-    && pip install --upgrade cryptography \
-    && apt purge --autoremove python3-jwt -y \
-    && pip install PyJWT==2.4.0 \
-    && pip install setuptools>=65.5.5  \
-    && rm -rf /usr/lib/python3/dist-packages/wheel \
-    && rm -rf /usr/lib/python3/dist-packages/wheel-0.37.1.egg-info \
+    && apt-get -y install python3-pip \
+    && pip install --upgrade --break-system-packages cryptography \
     # Remove the packages from distro site
-    && apt-get -y purge --autoremove python3-cryptography python3-pip python3-setuptools
+    && apt-get -y purge python3-cryptography python3-pip
 
 # Install helpers
 RUN \
