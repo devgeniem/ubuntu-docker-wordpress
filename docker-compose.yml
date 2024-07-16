@@ -1,19 +1,18 @@
 # Use this if you're testing/debugging the build locally on OSX
 
-version: '3.4'
+version: "3.4"
 
 services:
   web:
-    build: ./ubuntu-8.1/
-    command: /init
+    build: ./alpine/
     ports:
-      - 80
+      - "8080:8080"
     volumes:
       - ./web:/var/www/project/web
     environment:
-      WP_UID: 100
+      WP_UID: 101
       WP_GID: 101
 
       # For testing with gdev
       VIRTUAL_HOST: php81.test
-      PORT: 80
+      PORT: 8080

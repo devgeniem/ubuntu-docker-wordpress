@@ -3,10 +3,6 @@ ARG PHP_VERSION="8.1"
 ARG PHP_EXTENSION_INSTALLER_VERSION="2.1.7"
 ARG COMPOSER_VERSION="2.5.4"
 
-ARG RESTY_VERSION="1.19.9.1"
-ARG RESTY_OPENSSL_VERSION="1.1.1k"
-ARG PAGESPEED_VERSION="1.13.35.2"
-
 ARG NGINX_VERSION="1.23.3"
 
 # Fix apt-get and show colors
@@ -75,8 +71,8 @@ ENV \
     # Main server listen interface, set to 0.0.0.0 along with NGINX_INTERNAL_PROXY_INCLUDE="" & INTERNAL_PORT="$PORT" to disable internal proxy
     INTERNAL_HOST="127.0.0.1" \
     # Use custom users for nginx and php-fpm
-    WEB_USER="wordpress" \
-    WEB_GROUP="web" \
+    WEB_USER="nginx" \
+    WEB_GROUP="nginx" \
     WEB_UID=1000 \
     WEB_GID=1001 \
     # Set defaults for redis
@@ -198,9 +194,6 @@ RUN rm -rf rootfs
 
 COPY /config /app/config
 
-COPY /web/* /var/www/project/
-RUN rm -rf web/
-
 FROM runtime-base AS builder
 ENV COMPOSER_ALLOW_SUPERUSER=1
 ENV CPPFLAGS="-DPNG_ARM_NEON_OPT=0"
@@ -213,12 +206,9 @@ COPY --from=composer /usr/bin/composer /usr/local/bin/composer
 FROM runtime-base as project
 # Set default path to project folder for easier running commands in project
 WORKDIR ${PROJECT_ROOT}
-EXPOSE ${PORT}
-HEALTHCHECK --interval=10s --retries=3 --start-period=10s --timeout=3s CMD /healthcheck
-
-FROM runtime-base as runtime
-WORKDIR /var/www/project
 COPY . .
-RUN cat tasks.cron > /etc/crontabs/root
 RUN chmod +x /init/start.sh
 ENTRYPOINT [ "/init/start.sh" ]
+
+EXPOSE ${PORT}
+HEALTHCHECK --interval=10s --retries=3 --start-period=10s --timeout=3s CMD /healthcheck
