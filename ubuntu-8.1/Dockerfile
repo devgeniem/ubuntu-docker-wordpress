@@ -46,12 +46,18 @@ RUN \
         php8.1-mbstring \
         php8.1-soap \
         php8.1-bcmath \
-        php8.1-curl \
         php8.1-ldap \
-        php-pear \
         php8.1-imagick \
+        php-pear \
+        libssh2-1 \
+        libssh2-1-dev \
+        autoconf \
+        pkg-config \
  
     && pecl install redis \
+    && printf "\n" | pecl install -f ssh2 \
+    && echo "extension=ssh2.so" > /etc/php/8.1/mods-available/ssh2.ini \
+    && phpenmod -v 8.1 -s ALL ssh2 \
     # Force install only cron without extra mailing dependencies
     && cd /tmp \
     && apt-get download cron \
