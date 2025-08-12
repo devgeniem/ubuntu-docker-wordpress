@@ -1,5 +1,4 @@
-FROM devgeniem/ubuntu-docker-openresty-pagespeed:edge
-MAINTAINER Ville Pietarinen, Hannu Kumpula - Geniem Oy <ville.pietarinen-nospam@geniem.com> <hannu-nospam@geniem.com>
+FROM devgeniem/ubuntu-docker-openresty-pagespeed:edge2
 
 ##
 # Only use these during installation
@@ -7,14 +6,8 @@ MAINTAINER Ville Pietarinen, Hannu Kumpula - Geniem Oy <ville.pietarinen-nospam@
 ARG LANG=C.UTF-8
 ARG DEBIAN_FRONTEND=noninteractive
 
-##
-# Install php7 packages from dotdeb.org
-# - Dotdeb is an extra repository providing up-to-date packages for your Debian servers
-##
-RUN \
-    apt-get update \
-&& apt-get -y --no-install-recommends install software-properties-common \
-    && add-apt-repository ppa:ondrej/php \
+RUN apt-get update \
+    && apt-get -y --no-install-recommends install software-properties-common \
     && apt-get -y --no-install-recommends install \
         apt-utils \
         curl \
@@ -27,31 +20,6 @@ RUN \
         netcat \
         less \
         build-essential \
-    && apt-get update \
-    && apt-get -y --no-install-recommends install \
-        php8.1-dev \
-        php8.1-cli \
-        php8.1-common \
-        php8.1-apcu \
-        php8.1-curl \
-        php8.1-opcache \
-        php8.1-readline \
-        php8.1-xml \
-        php8.1-zip \
-        php8.1-fpm \
-        php8.1-mongodb \
-        php8.1-mysqli \
-        php8.1-intl \
-        php8.1-gd \
-        php8.1-mbstring \
-        php8.1-soap \
-        php8.1-bcmath \
-        php8.1-curl \
-        php8.1-ldap \
-        php-pear \
-        php8.1-imagick \
- 
-    && pecl install redis \
     # Force install only cron without extra mailing dependencies
     && cd /tmp \
     && apt-get download cron \
@@ -68,13 +36,13 @@ RUN \
     ##
     # Install composer
     ##
-    curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
+    #curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
 
     ##
     # Install wp-cli
     # source: http://wp-cli.org/
     ##
-    && curl -L https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar -o /usr/local/bin/wp-cli \
+    curl -L https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar -o /usr/local/bin/wp-cli \
     && chmod +rx /usr/local/bin/wp-cli \
     # Symlink it to /usr/bin as well so that cron can find this script with limited PATH
     && ln -s /usr/local/bin/wp-cli /usr/bin/wp-cli \
@@ -98,7 +66,7 @@ COPY rootfs/ /
 RUN set -x \
     && mkdir -p /var/www/uploads \
     && mkdir -p /tmp/php-opcache \
-    && ln -sf /usr/sbin/php-fpm8.1 /usr/sbin/php-fpm \
+    && ln -sf /usr/sbin/php-fpm8.3 /usr/sbin/php-fpm \
     && ln -sf /usr/bin/wp /usr/local/bin/wp
 
 # This is for your project root
