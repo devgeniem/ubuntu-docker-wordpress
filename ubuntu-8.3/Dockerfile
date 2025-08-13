@@ -1,4 +1,5 @@
-FROM devgeniem/ubuntu-docker-openresty-pagespeed:edge2
+FROM devgeniem/ubuntu-docker-openresty-pagespeed:edge3
+ARG PHP_VERSION="8.3.24"
 
 ##
 # Only use these during installation
@@ -30,19 +31,89 @@ RUN apt-get update \
     && apt-get autoremove \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/* /var/log/apt/* /var/log/*.log
 
+###
+# PHP build & install process
+###
+RUN apt-get update
+
+# php dependencies (https://github.com/php/php-src/tree/php-8.3.24?tab=readme-ov-file#building-php-source-code)
+RUN apt-get install -y pkg-config build-essential autoconf bison re2c libxml2-dev libsqlite3-dev
+
+# module deps (https://php.watch/articles/compile-php-ubuntu#ext-enable)
+RUN apt-get install -y libonig-dev \
+    libcurl4-openssl-dev \
+    libzip-dev libpng-dev libjpeg-dev libwebp-dev \
+    libldap2-dev \
+    libreadline-dev \
+    libssl-dev \
+    libpq-dev \
+    libmagickwand-dev \
+    libmongoc-dev
+
+# configure
+RUN git clone --depth=1 --branch=php-$PHP_VERSION https://github.com/php/php-src.git /tmp/php-src
+RUN cd /tmp/php-src && \
+    ./buildconf --force && \
+    ./configure \
+        --with-pear \
+        --enable-fpm \
+        --with-config-file-path="/etc/php/8.3/fpm/" \
+        --with-config-file-scan-dir="/etc/php/8.3/fpm/conf.d" \
+        --with-fpm-user=www-data \
+        --with-fpm-group=www-data \
+        --enable-bcmath \
+        --enable-cli \
+        --enable-intl \
+        --enable-mbstring \
+        --enable-opcache \
+        --enable-sockets \
+        --enable-posix \
+        --with-openssl \
+        --with-curl \
+        --with-zlib \
+        --with-libxml \
+        --with-readline \
+        --with-zip \
+        --enable-gd \
+        --with-jpeg \
+        --with-webp \
+        --with-freetype \
+        --with-ldap \
+        --with-mysqli \
+        --with-pdo-mysql \
+        --with-pdo-pgsql
+
+# actual build and install of files
+RUN cd /tmp/php-src && \
+    make -j $(nproc) && \
+    make install
+
+# pecl module installs
+RUN pecl channel-update pecl.php.net
+RUN pecl install redis
+RUN pecl install apcu
+RUN pecl install imagick
+RUN pecl install mongodb
+
+# add config files
+RUN mkdir -p /etc/php/8.3/fpm/conf.d && \
+    cp /tmp/php-src/php.ini-production /etc/php/8.3/fpm/php.ini
+RUN echo "extension=apcu.so" > /etc/php/8.3/fpm/conf.d/20-apcu.ini && \
+    echo "extension=imagick.so" > /etc/php/8.3/fpm/conf.d/20-imagick.ini && \
+    echo "extension=mongodb.so" > /etc/php/8.3/fpm/conf.d/20-mongodb.ini
 
 # Install helpers
 RUN \
     ##
     # Install composer
     ##
-    #curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
+    curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
 
     ##
     # Install wp-cli
     # source: http://wp-cli.org/
     ##
-    curl -L https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar -o /usr/local/bin/wp-cli \
+    && curl -L https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar -o /usr/local/bin/wp-cli \
     && chmod +rx /usr/local/bin/wp-cli \
     # Symlink it to /usr/bin as well so that cron can find this script with limited PATH
     && ln -s /usr/local/bin/wp-cli /usr/bin/wp-cli \
