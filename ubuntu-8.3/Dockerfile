@@ -96,13 +96,6 @@ RUN pecl install apcu
 RUN pecl install imagick
 RUN pecl install mongodb
 
-# add config files
-RUN mkdir -p /etc/php/8.3/fpm/conf.d && \
-    cp /tmp/php-src/php.ini-production /etc/php/8.3/fpm/php.ini
-RUN echo "extension=apcu.so" > /etc/php/8.3/fpm/conf.d/20-apcu.ini && \
-    echo "extension=imagick.so" > /etc/php/8.3/fpm/conf.d/20-imagick.ini && \
-    echo "extension=mongodb.so" > /etc/php/8.3/fpm/conf.d/20-mongodb.ini
-
 # Install helpers
 RUN \
     ##
