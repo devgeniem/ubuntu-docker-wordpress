@@ -57,8 +57,8 @@ RUN cd /tmp/php-src && \
     ./configure \
         --with-pear \
         --enable-fpm \
-        --with-config-file-path="/etc/php/8.3/fpm/" \
-        --with-config-file-scan-dir="/etc/php/8.3/fpm/conf.d" \
+        --with-config-file-path="/etc/php/8.3/cli/" \
+        --with-config-file-scan-dir="/etc/php/8.3/cli/conf.d" \
         --with-fpm-user=www-data \
         --with-fpm-group=www-data \
         --enable-bcmath \
@@ -111,6 +111,8 @@ RUN \
     && chmod +rx /usr/local/bin/wp-cli \
     # Symlink it to /usr/bin as well so that cron can find this script with limited PATH
     && ln -s /usr/local/bin/wp-cli /usr/bin/wp-cli \
+    # we also have to symlink php under /usr/bin for cron
+    && ln -s /usr/local/bin/php /usr/bin/php \
 
     ##
     # Install cronlock for running cron correctly with multi container setups
