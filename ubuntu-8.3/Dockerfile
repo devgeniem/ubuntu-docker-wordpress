@@ -111,8 +111,6 @@ RUN \
     && chmod +rx /usr/local/bin/wp-cli \
     # Symlink it to /usr/bin as well so that cron can find this script with limited PATH
     && ln -s /usr/local/bin/wp-cli /usr/bin/wp-cli \
-    # we also have to symlink php under /usr/bin for cron
-    && ln -s /usr/local/bin/php /usr/bin/php \
 
     ##
     # Install cronlock for running cron correctly with multi container setups
