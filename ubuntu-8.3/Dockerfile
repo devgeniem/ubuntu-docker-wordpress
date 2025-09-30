@@ -57,8 +57,8 @@ RUN cd /tmp/php-src && \
     ./configure \
         --with-pear \
         --enable-fpm \
-        --with-config-file-path="/etc/php/8.3/cli/" \
-        --with-config-file-scan-dir="/etc/php/8.3/cli/conf.d" \
+        --with-config-file-path="/etc/php/8.3/fpm/" \
+        --with-config-file-scan-dir="/etc/php/8.3/fpm/conf.d" \
         --with-fpm-user=www-data \
         --with-fpm-group=www-data \
         --enable-bcmath \
