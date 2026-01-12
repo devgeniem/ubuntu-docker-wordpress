@@ -82,7 +82,8 @@ RUN cd /tmp/php-src && \
         --with-mysqli \
         --with-pdo-mysql \
         --with-pdo-pgsql \
-        --enable-exif
+        --enable-exif \
+        --enable-soap
 
 # actual build and install of files
 RUN cd /tmp/php-src && \
