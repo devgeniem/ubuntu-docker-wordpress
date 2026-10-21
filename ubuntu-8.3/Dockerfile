@@ -1,5 +1,5 @@
 FROM devgeniem/ubuntu-docker-openresty-pagespeed:edge3
-ARG PHP_VERSION="8.3.24"
+ARG PHP_VERSION="8.3.35"
 
 ##
 # Only use these during installation
