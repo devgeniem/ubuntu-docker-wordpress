@@ -1,4 +1,4 @@
-FROM devgeniem/ubuntu-docker-openresty-pagespeed:edge4
+FROM devgeniem/ubuntu-docker-openresty-pagespeed:edge5
 ARG PHP_VERSION="8.3.37"
 
 ##
@@ -18,12 +18,15 @@ RUN apt-get update \
         mysql-client \
         msmtp \
         postfix \
-        netcat \
+        netcat-openbsd \
         less \
         build-essential \
     # Force install only cron without extra mailing dependencies
     && cd /tmp \
-    && apt-get download cron \
+    # cron-daemon-common provides the crontab group and shared files since 24.04;
+    # it creates the group via systemd-sysusers, which this image doesn't have
+    && apt-get download cron cron-daemon-common \
+    && (getent group crontab || groupadd --system crontab) \
     && dpkg --force-all -i cron*.deb \
     && mkdir -p /var/spool/cron/crontabs \
     # Cleanup
@@ -41,6 +44,7 @@ RUN apt-get install -y pkg-config build-essential autoconf bison re2c libxml2-de
 
 # module deps (https://php.watch/articles/compile-php-ubuntu#ext-enable)
 RUN apt-get install -y libonig-dev \
+    libicu-dev \
     libcurl4-openssl-dev \
     libzip-dev libpng-dev libjpeg-dev libwebp-dev \
     libldap2-dev \
