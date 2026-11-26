@@ -1,4 +1,4 @@
-FROM devgeniem/ubuntu-docker-openresty-pagespeed:edge4
+FROM devgeniem/ubuntu-docker-openresty-pagespeed
 ARG PHP_VERSION="8.3.37"
 
 ##
